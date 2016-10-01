@@ -14,9 +14,9 @@ import java.io.IOException;
 /**
  * Created by Shirobako on 6/20/2016.
  */
-public class IQDBSearcher {
+public class IqdbaSearcher {
 
-    private static final Logger log = LoggerFactory.getLogger(IQDBSearcher.class);
+    private static final Logger log = LoggerFactory.getLogger(IqdbaSearcher.class);
 
     public static final String IQDB_URL = "http://iqdb.org/";
 
