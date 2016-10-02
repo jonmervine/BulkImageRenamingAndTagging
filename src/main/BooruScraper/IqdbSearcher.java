@@ -1,5 +1,6 @@
 package main.BooruScraper;
 
+import main.Image;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,7 +21,7 @@ public class IqdbSearcher {
 
     public static final String IQDB_URL = "http://iqdb.org/";
 
-    public IqdbImage processFile(File file) throws IqdbException {
+    public Image processFile(File file) throws IqdbException {
         if (file.exists() && file.isFile()) {
             return SearchIqdb(file);
         } else {
@@ -28,7 +29,8 @@ public class IqdbSearcher {
         }
     }
 
-    private IqdbImage SearchIqdb(File file) throws IqdbException {
+    private Image SearchIqdb(File file) throws IqdbException {
+        Image image = null;
         try {
             Document doc = Jsoup.connect(IQDB_URL).data("file", file.getName(), new FileInputStream(file)).post();
 
@@ -49,16 +51,16 @@ public class IqdbSearcher {
 
                 Elements noMatch = element.getElementsContainingText("No relevant matches");
                 if (noMatch.size() > 0) {
-                    System.out.println("There was no relevant match for this");
+                    log.error("There was no relevant match for this");
                     return null;
                     //todo we should probably move this image to a holding folder of some kind
                 }
 
                 Elements bestMatch = element.getElementsContainingText("Best Match");
                 if (bestMatch.size() > 0) {
-                    IqdbImage image = getImage(element);
+                    image = getImage(element);
                     if (image != null) {
-                        return image;
+                        break;
                     } else {
                         continue;
                     }
@@ -66,9 +68,9 @@ public class IqdbSearcher {
 
                 Elements additionalMatches = element.getElementsContainingText("Additional match");
                 if (additionalMatches.size() > 0) {
-                    IqdbImage image = getImage(element);
+                    image = getImage(element);
                     if(image != null) {
-                        return image;
+                        break;
                     } else {
                         continue;
                     }
@@ -78,16 +80,18 @@ public class IqdbSearcher {
         } catch (IOException e) {
 
         }
-        return null;
+        if (image != null) {
+            image.setLocation(file);
+        }
+        return image;
     }
 
-    private IqdbImage getImage(Element element) throws IqdbException {
+    private Image getImage(Element element) throws IqdbException {
         IqdbParser parser = new IqdbParser();
-        IqdbImage image = parser.processTable(element);
+        Image image = parser.processTable(element);
         if (image == null) {
             return null;
         } else {
-            image.cleanImage();
             return image;
         }
     }

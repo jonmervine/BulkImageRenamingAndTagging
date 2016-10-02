@@ -1,5 +1,7 @@
 package main.BooruScraper;
 
+import main.BooruScraper.Boorus.BooruImageFactory;
+import main.Image;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
@@ -12,7 +14,7 @@ public class IqdbParser {
 
     private static final Logger log = LoggerFactory.getLogger(IqdbParser.class);
 
-    public IqdbImage processTable(Element element) throws IqdbException {
+    public Image processTable(Element element) throws IqdbException {
         Elements tableDatas = element.getElementsByTag("td");
         if (tableDatas.size() != 4) {
             log.error("the table should have 4 table datas what the fuck happened " + tableDatas.toString());
@@ -29,12 +31,23 @@ public class IqdbParser {
             System.out.println("EXCEPTION WHILE PARSING SIMILARITY: " + similarityPercent.text());
         }
 
+        if (similarity < 60) {
+            log.error("Similarity is too low, can't vouch it's the right picture");
+            //TODO should probably move this folder to a manual check
+            return null;
+        }
+
+        //Get rating and resoultion
         String resolutionAndRatingText = resolutionAndRating.text();
         String rating = resolutionAndRatingText.substring(resolutionAndRatingText.indexOf("[") + 1, resolutionAndRatingText.indexOf("]"));
         String resolution = resolutionAndRating.text().substring(0, resolutionAndRating.text().indexOf(" ["));
 
+        //Get URL and tags
         String url = image.getElementsByTag("a").get(0).attr("href");
         String altText = image.getElementsByTag("img").get(0).attr("alt");
+        String tags = altText.substring(altText.indexOf("Tags: ") + 6, altText.length());
+
+        //Get Source
         String[] sourceArray = image.getElementsByTag("img").get(0).attr("src").split("/");
         String source;
         if (sourceArray[0].isEmpty()) {
@@ -47,23 +60,13 @@ public class IqdbParser {
             throw new IqdbException("source is still somehow empty, wtf, " + sourceArray);
         }
 
-        //anigal (theanimegallery), e-shuushuu, sankaku have weird tags
-        if (source.equalsIgnoreCase("anigal") || source.equalsIgnoreCase("e-shuushuu") || source.equalsIgnoreCase("sankaku") || source.equalsIgnoreCase("anime-pictures") || source.isEmpty()) {
-            //TODO try another alternate source?
-            return null;
-        }
+        IqdbImage iqdbImage = new IqdbImage(source, rating, resolution, url, tags);
 
-        //zerochan commas and spaces. everything else is spaces and underscores
-        if (source.equalsIgnoreCase("zerochan")) {
-            //handleZerochan tags
-            String[] tags = altText.substring(altText.indexOf("Tags: ") + 6, altText.length()).split(",");
-            return new IqdbImage(rating, resolution, url, tags);
-        } else {
-            String[] tags = altText.substring(altText.indexOf("Tags: ") + 6, altText.length()).split(" ");
-            return new IqdbImage(rating, resolution, url, tags);
-        }
+        Image booruImage = BooruImageFactory.getBooru(iqdbImage);
 
+        return booruImage;
     }
+}
 
 /*
 <table><th>Best match</th>
@@ -117,4 +120,4 @@ NO TAGS
 <td>95% similarity</td></tr></table></div>
  */
 
-}
+

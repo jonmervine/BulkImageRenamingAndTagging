@@ -1,4 +1,4 @@
-package main;
+package main.Metadata;
 
 /**
  * Created by Shirobako on 9/3/2016.

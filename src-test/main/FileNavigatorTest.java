@@ -1,8 +1,9 @@
 package main;
 
 import main.BooruScraper.IqdbException;
-import main.BooruScraper.IqdbImage;
 import main.BooruScraper.IqdbSearcher;
+import main.Metadata.MetadataExecption;
+import main.Metadata.XMPManager;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import java.io.File;
 public class FileNavigatorTest {
 
     private static final Logger log = LoggerFactory.getLogger(FileNavigatorTest.class);
+
     private static final File testFile = new File("D:\\Downloads\\derp\\Album Fqedd - Imgur\\029 - UESTINJ.jpg");
 
     private static final File inputFile = new File("D:\\Downloads\\derp\\101 - htXCja4.jpg");
@@ -26,9 +28,9 @@ public class FileNavigatorTest {
     @Test
     public void testStartToFinish() {
         IqdbSearcher searcher = new IqdbSearcher();
-        IqdbImage image = null;
+        Image image = null;
         try {
-            image = searcher.processFile(inputFile2);
+            image = searcher.processFile(inputFile);
         }catch (IqdbException e) {
             log.error("Exception trying to process iqdb file");
         }
@@ -36,15 +38,20 @@ public class FileNavigatorTest {
         if (image != null) {
             XMPManager xmp = new XMPManager();
             try {
-                if (xmp.hasTags(inputFile2)) {
-                    xmp.addXmlTags(inputFile2, outputFile2, image.getTags());
+                if (xmp.hasTags(inputFile)) {
+                    xmp.addXmlTags(inputFile, outputFile, image.getTags());
                 } else {
-                    xmp.writeNewXmlTags(inputFile2, outputFile2, image.getTags());
+                    xmp.writeNewXmlTags(inputFile, outputFile, image.getTags());
                 }
-                xmp.printMetadata(outputFile2);
+//                xmp.printMetadata(outputFile2);
             } catch (MetadataExecption e) {
                 log.error("Exception trying to write new tags to images");
             }
         }
     }
+
+    @Test
+    public void testMoveFiles() {
+
     }
+}
