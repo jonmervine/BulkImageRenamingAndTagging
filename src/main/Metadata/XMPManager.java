@@ -76,9 +76,8 @@ public class XMPManager {
 
     private void writeXMP(File inputFile, File outputFile, Document xmpDoc, XMP xmp) throws MetadataExecption {
 
-        try {
-            FileInputStream fin = new FileInputStream(inputFile);
-            FileOutputStream fout = new FileOutputStream(outputFile);
+        try (FileInputStream fin = new FileInputStream(inputFile);
+             FileOutputStream fout = new FileOutputStream(outputFile)) {
 
             if (xmp != null && xmp.hasExtendedXmp()) {
                 System.out.println("Write extendedDocument");
@@ -90,8 +89,6 @@ public class XMPManager {
 
             fin.close();
             fout.close();
-
-
         } catch (IOException e) {
             log.error("Exception while writing XMP to file: " + outputFile.getAbsolutePath());
             throw new MetadataExecption(e);

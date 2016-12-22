@@ -31,8 +31,8 @@ public class IqdbSearcher {
 
     private Image SearchIqdb(File file) throws IqdbException {
         Image image = null;
-        try {
-            Document doc = Jsoup.connect(IQDB_URL).data("file", file.getName(), new FileInputStream(file)).post();
+        try (FileInputStream fin = new FileInputStream(file)) {
+            Document doc = Jsoup.connect(IQDB_URL).data("file", file.getName(), fin).post();
 
             //doc is the entire raw html page
             Elements elements = doc.getElementsByTag("table");
@@ -51,7 +51,7 @@ public class IqdbSearcher {
 
                 Elements noMatch = element.getElementsContainingText("No relevant matches");
                 if (noMatch.size() > 0) {
-                    log.error("There was no relevant match for this");
+                    log.warn("There was no relevant match for this");
                     return null;
                     //todo we should probably move this image to a holding folder of some kind
                 }

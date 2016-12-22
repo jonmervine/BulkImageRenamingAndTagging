@@ -5,6 +5,8 @@ import main.ImageRatios;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,7 +20,6 @@ public class FileMover {
 
     private static final Logger log = LoggerFactory.getLogger(FileMover.class);
 
-
     private File rootDirectory;
 
     private static final String WALLPAPER_DIRECTORY = "#Wallpapers";
@@ -30,57 +31,44 @@ public class FileMover {
         this.rootDirectory = rootDirectory;
     }
 
-    public void moveFile(Image image, int width, int height) {
+    public File getOutputFile(Image image) {
+        File destinationDirectory;
         try {
-            ImageRatios ratio = ImageRatios.getImageRatio(width + "x" + height);
-
-            switch(ratio) {
+            ImageRatios ratio = ImageRatios.getImageRatio(image.getLocation());
+            switch (ratio) {
                 case CELL:
                 case HOME_PC:
                 case WORK_MONITORS:
-                    moveWallpaper(ratio, image);
+                    File wallpaperDirectory = createDirectoryIfNotExist(rootDirectory, WALLPAPER_DIRECTORY);
+                    File resolutionSpecificDirectory = createDirectoryIfNotExist(wallpaperDirectory, ratio.getResolution());
+                    destinationDirectory = createDirectoryIfNotExist(resolutionSpecificDirectory, image.getRating());
                     break;
                 case UNKNOWN:
                 default:
-                    movePicture(image);
+                    destinationDirectory = createDirectoryIfNotExist(rootDirectory, ORIGINAL_DIRECTORY);
                     break;
             }
+
+            return createOutputImageFilePath(image.getLocation(), destinationDirectory);
         } catch (FileMoverException e) {
-            moveErroredFile(image.getLocation());
             log.error("shit fucked up, try to move to errored folder", e);
+            moveErroredFile(image.getLocation());
+            return null;
         }
     }
 
-    private void moveWallpaper(ImageRatios ratio, Image image) throws FileMoverException {
-        File wallpaperDirectory = createDirectoryIfNotExist(rootDirectory, WALLPAPER_DIRECTORY);
-        File resolutionSpecificDirectory = createDirectoryIfNotExist(wallpaperDirectory, ratio.getResolution());
-        File ratingDirectory = createDirectoryIfNotExist(resolutionSpecificDirectory, image.getRating());
-
-        move(image.getLocation(), ratingDirectory);
+    public File createDirectoryIfNotExist(File parentDirectory, String newDirectoryName) {
+        return createDirectoryIfNotExist(new File(parentDirectory, newDirectoryName));
     }
 
-    private File createDirectoryIfNotExist(File parentDirectory, String newDirectoryName) throws FileMoverException {
-        File newDirectory = new File(parentDirectory, newDirectoryName);
+    public File createDirectoryIfNotExist(File newDirectory) {
         if (!newDirectory.exists()) {
-            boolean succeed = newDirectory.mkdir();
+            boolean succeed = newDirectory.mkdirs();
             if (!succeed) {
-                throw new FileMoverException("Failed to create directory " + newDirectory.getPath());
+                log.error("Failed to create directory "  + newDirectory.getPath());
             }
-        } else if (!newDirectory.isDirectory()) {
-            throw new FileMoverException("Wallpaper directory isn't a directory: " + newDirectory.getPath());
         }
         return newDirectory;
-    }
-
-    private void move(File sourceFile, File destinationDirectory) {
-        try {
-
-            File outputFile = createOutputImageFilePath(sourceFile, destinationDirectory);
-
-            Files.copy(sourceFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e ) {
-            log.error("could not copy file " + sourceFile.getPath() + " to location " + destinationDirectory.getPath());
-        }
     }
 
     public File createOutputImageFilePath(File sourceFile, File destinationDirectory) {
@@ -93,29 +81,21 @@ public class FileMover {
             fileCopyTo = destinationDirectory.toPath().resolve(newFileName);
             i++;
         }
-
         return fileCopyTo.toFile();
     }
 
-    private void movePicture(Image image){
-        try {
-            File originalDirectory = createDirectoryIfNotExist(rootDirectory, ORIGINAL_DIRECTORY);
 
-            move(image.getLocation(), originalDirectory);
-        } catch (FileMoverException e) {
-            log.error("Error moving picture", e);
-        }
+    public void moveErroredFile(File file) {
+            File destinationDirectory = createDirectoryIfNotExist(rootDirectory, MANUAL_SORT_DIRECTORY);
+            File outputFile = createOutputImageFilePath(file, destinationDirectory);
+            move(file, outputFile);
     }
 
-    public void moveErroredFile(File image) {
+    private void move(File sourceFile, File outputFile) {
         try {
-           File manualSortDirectory = createDirectoryIfNotExist(rootDirectory, MANUAL_SORT_DIRECTORY);
-
-            move(image, manualSortDirectory);
-        } catch (FileMoverException e) {
-            log.error("error Moving Errored File", e);
+            Files.move(sourceFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            log.error("Could not move file" + sourceFile.getPath() + " to  " + outputFile.getPath(), e);
         }
-
     }
-
 }

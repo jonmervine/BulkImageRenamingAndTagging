@@ -18,6 +18,7 @@ public class IqdbParser {
         Elements tableDatas = element.getElementsByTag("td");
         if (tableDatas.size() != 4) {
             log.error("the table should have 4 table datas what the fuck happened " + tableDatas.toString());
+            throw new IqdbException("don't know what happened table should have had 4 table datas");
         }
 
         Element image = tableDatas.get(0);
@@ -28,11 +29,12 @@ public class IqdbParser {
             String similarityText = similarityPercent.text();
             similarity = Integer.parseInt(similarityText.substring(0, similarityText.indexOf("%")));
         } catch (NumberFormatException ex) {
-            System.out.println("EXCEPTION WHILE PARSING SIMILARITY: " + similarityPercent.text());
+            log.error("EXCEPTION WHILE PARSING SIMILARITY: " + similarityPercent.text());
+            throw new IqdbException("couldn't parse int for similarity for whatever reason " + similarityPercent.toString());
         }
 
         if (similarity < 60) {
-            log.error("Similarity is too low, can't vouch it's the right picture");
+            log.warn("Similarity is too low, can't vouch it's the right picture");
             //TODO should probably move this folder to a manual check
             return null;
         }
