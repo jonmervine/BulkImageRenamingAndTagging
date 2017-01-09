@@ -34,6 +34,10 @@ public enum ImageRatios {
 
     public String getResolution() { return width + "x" + height; }
 
+    public boolean isWallpaper() {
+        return this != UNKNOWN;
+    }
+
     public static ImageRatios getImageRatio(String resolution) {
         for (ImageRatios ratio : ImageRatios.values()) {
             if (ratio.getResolution().equalsIgnoreCase(resolution)) {
