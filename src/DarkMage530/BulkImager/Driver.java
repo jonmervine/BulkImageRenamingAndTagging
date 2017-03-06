@@ -1,7 +1,7 @@
 package DarkMage530.BulkImager;
 
-import DarkMage530.BulkImager.IQDB.IqdbException;
-import DarkMage530.BulkImager.IQDB.IqdbSearcher;
+import DarkMage530.BulkImager.Iqdb.IqdbException;
+import DarkMage530.BulkImager.Iqdb.SearchIqdb;
 import DarkMage530.BulkImager.Metadata.MetadataExecption;
 import DarkMage530.BulkImager.Metadata.XMPManager;
 import DarkMage530.BulkImager.Output.PictureOutput;
@@ -24,7 +24,7 @@ public class Driver {
     //    private static final Output moveRoot = new Output("D:\\Downloads\\derp\\moved");
     private static final File moveRoot = new File("D:\\Downloads\\moved");
 
-    private IqdbSearcher searcher = new IqdbSearcher();
+    private SearchIqdb searcher = new SearchIqdb();
     private PictureOutput outputter = new PictureOutput();
 
     public static void main(String[] args) {
