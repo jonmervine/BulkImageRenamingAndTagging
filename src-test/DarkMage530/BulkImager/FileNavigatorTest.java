@@ -1,7 +1,7 @@
 package DarkMage530.BulkImager;
 
-import DarkMage530.BulkImager.IQDB.IqdbException;
-import DarkMage530.BulkImager.IQDB.IqdbSearcher;
+import DarkMage530.BulkImager.Iqdb.IqdbException;
+import DarkMage530.BulkImager.Iqdb.SearchIqdb;
 import DarkMage530.BulkImager.Metadata.MetadataExecption;
 import DarkMage530.BulkImager.Metadata.XMPManager;
 import org.junit.Test;
@@ -45,7 +45,7 @@ public class FileNavigatorTest {
 
     @Test
     public void testStartToFinish() {
-        IqdbSearcher searcher = new IqdbSearcher();
+        SearchIqdb searcher = new SearchIqdb();
         Image image = null;
         try {
             image = searcher.searchBoorus(inputFile);
