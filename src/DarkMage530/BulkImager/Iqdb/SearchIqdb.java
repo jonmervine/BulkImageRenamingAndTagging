@@ -12,19 +12,26 @@ public class SearchIqdb {
 
     private static final Logger log = LoggerFactory.getLogger(SearchIqdb.class);
 
-    public static final String IQDB_URL = "http://iqdb.org/";
 
-    public Image searchBoorus(PictureFile file) throws IqdbException {
+    public PictureFile searchBoorus(PictureFile pictureFile) {
         //Take image and use jsoup to get html of the search
-        IqdbSearcher searcher = new IqdbSearcher();
-        searcher.search(file);
+        IqdbDocument iqdbDocument;
+        try {
+            IqdbSearcher searcher = new IqdbSearcher();
+            iqdbDocument = searcher.search(pictureFile);
+        } catch (IqdbException e) {
+            log.error("Exception while searching Iqdb", e);
+            return pictureFile;
+        }
 
         //parse out booru results
+        IqdbParser parser = new IqdbParser();
+        parser.parse(iqdbDocument);
 
         //compile booru results into object
 
         //return booru result object
 
-
+        return pictureFile;
     }
 }

@@ -67,7 +67,7 @@ public class Driver {
     }
 
     private void foundPicture(File file) {
-        log.info("Processing file " + file.getPath());
+    /*    log.info("Processing file " + file.getPath());
 
         Image image = null;
         try {
@@ -94,6 +94,6 @@ public class Driver {
         } else {
 //            outputter.moveErroredFile(file);
             log.info("Image was null, moved to Manual sort");
-        }
+        }*/
     }
 }

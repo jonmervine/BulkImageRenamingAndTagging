@@ -22,11 +22,13 @@ public class PictureFile {
         this.path = file.toPath();
     }
 
+    public File asFile() { return file; }
+
     public Path getFileName() {
         return path.getFileName();
     }
 
-    public Path toPath() {
+    public Path asPath() {
         return path;
     }
 
@@ -52,6 +54,6 @@ public class PictureFile {
 
     @Override
     public String toString() {
-        return "PictureFile: [" + toPath() + ", " + getResolution() + "]";
+        return "PictureFile: [" + asPath() + ", " + getResolution() + "]";
     }
 }

@@ -49,9 +49,9 @@ class OutputMover {
         createDirectoryIfNotExist(outputFile);
 
         try {
-            Files.copy(pictureFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(pictureFile.asPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            throw new OutputException("Could not copy file " + pictureFile.toPath() + " to " + outputFile.getPath(), e);
+            throw new OutputException("Could not copy file " + pictureFile.asPath() + " to " + outputFile.getPath(), e);
         }
 
         return true;

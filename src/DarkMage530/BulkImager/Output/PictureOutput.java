@@ -39,7 +39,7 @@ public class PictureOutput {
             //TODO we need to handle if we can't move the file to the location we desired maybe the moveErroerd file method?
             log.error("OutputException attempting to copyFile. ", e);
             //temporary solution of setting destination to the current current dictory so we don't break anything else
-            destination = pictureFile.toPath().toFile();
+            destination = pictureFile.asPath().toFile();
         }
 
         //update picturefile with new location
