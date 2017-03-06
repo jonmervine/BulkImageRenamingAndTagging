@@ -1,4 +1,4 @@
-package DarkMage530.BulkImager.BooruScraper;
+package DarkMage530.BulkImager.IQDB;
 
 /**
  * Created by Shirobako on 9/3/2016.

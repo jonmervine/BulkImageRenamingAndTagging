@@ -1,6 +1,7 @@
-package DarkMage530.BulkImager.BooruScraper;
+package DarkMage530.BulkImager.IQDB;
 
 import DarkMage530.BulkImager.Image;
+import DarkMage530.BulkImager.PictureFile;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -8,7 +9,6 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -21,15 +21,18 @@ public class IqdbSearcher {
 
     public static final String IQDB_URL = "http://iqdb.org/";
 
-    public Image processFile(File file) throws IqdbException {
-        if (file.exists() && file.isFile()) {
-            return SearchIqdb(file);
-        } else {
-            throw new IqdbException("File: " + file.getAbsolutePath() + " does not exist or is not a file");
-        }
-    }
+    public Image searchBoorus(PictureFile file) throws IqdbException {
+        //Take image and use jsoup to get html of the search
 
-    private Image SearchIqdb(File file) throws IqdbException {
+        //parse out booru results
+
+        //compile booru results into object
+
+        //return booru result object
+
+
+
+
         Image image = null;
         try (FileInputStream fin = new FileInputStream(file)) {
             Document doc = Jsoup.connect(IQDB_URL).data("file", file.getName(), fin).post();

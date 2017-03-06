@@ -1,6 +1,6 @@
 package DarkMage530.BulkImager.BooruScraper.Boorus;
 
-import DarkMage530.BulkImager.BooruScraper.IqdbImage;
+import DarkMage530.BulkImager.IQDB.IqdbImage;
 import DarkMage530.BulkImager.Image;
 
 /**

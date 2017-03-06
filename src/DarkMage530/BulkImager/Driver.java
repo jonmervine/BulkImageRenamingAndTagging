@@ -1,7 +1,7 @@
 package DarkMage530.BulkImager;
 
-import DarkMage530.BulkImager.BooruScraper.IqdbException;
-import DarkMage530.BulkImager.BooruScraper.IqdbSearcher;
+import DarkMage530.BulkImager.IQDB.IqdbException;
+import DarkMage530.BulkImager.IQDB.IqdbSearcher;
 import DarkMage530.BulkImager.Metadata.MetadataExecption;
 import DarkMage530.BulkImager.Metadata.XMPManager;
 import DarkMage530.BulkImager.Output.PictureOutput;
@@ -11,19 +11,21 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 
 /**
- * Created by Shirobako on 4/23/2016.
+ * Created by DarkMage530 on 4/23/2016. For BulkImageRenamingAndTagging
+ * Current User Shirobako
  */
 public class Driver {
 
     private static final Logger log = LoggerFactory.getLogger(Driver.class);
 
     //    private static final Output testRoot = new Output("D:\\Downloads\\derp\\test");
-    private static final File testRoot = new File("D:\\Downloads\\derp - Copy");
+//    private static final File testRoot = new File("D:\\Downloads\\derp - Copy");
+    private static final File testRoot = new File("D:\\Downloads\\bleep");
     //    private static final Output moveRoot = new Output("D:\\Downloads\\derp\\moved");
     private static final File moveRoot = new File("D:\\Downloads\\moved");
 
     private IqdbSearcher searcher = new IqdbSearcher();
-    private PictureOutput mover = new PictureOutput();
+    private PictureOutput outputter = new PictureOutput();
 
     public static void main(String[] args) {
         try {
@@ -58,7 +60,9 @@ public class Driver {
 
         if (pictureFile.isWallpaper()) {
             log.info("pictureFile is wallpaper");
-            pictureFile = mover.copyWallpaper(pictureFile, moveRoot);
+
+            searcher.searchBoorus(pictureFile);
+            pictureFile = outputter.copyWallpaper(pictureFile, moveRoot);
         }
     }
 
@@ -67,13 +71,13 @@ public class Driver {
 
         Image image = null;
         try {
-            image = searcher.processFile(file);
+            image = searcher.searchBoorus(file);
         } catch (IqdbException e) {
             log.error("IqdbException", e);
         }
 
         if (image != null) {
-            File outputFile = null;//mover.getOutputFile(image);
+            File outputFile = null;//outputter.getOutputFile(image);
 
             XMPManager xmp = new XMPManager();
             try {
@@ -88,7 +92,7 @@ public class Driver {
                 log.error("Exception trying to write and move new tags to images");
             }
         } else {
-//            mover.moveErroredFile(file);
+//            outputter.moveErroredFile(file);
             log.info("Image was null, moved to Manual sort");
         }
     }

@@ -30,24 +30,25 @@ class OutputLocator {
 
     private File buildWallpaperDirectory(File destinationDirectory, ImageRatios ratio, ImageRating rating) {
         File resolutionDirectory;
-        switch (ratio) {
-            case CELL:
-            case HOME_PC:
-            case WORK_MONITORS:
-                resolutionDirectory = new File(destinationDirectory, ratio.getResolution());
-                break;
-            default:
-                resolutionDirectory = new File(destinationDirectory, MANUAL_SORT_DIRECTORY);
-                return resolutionDirectory;
-        }
-
         switch (rating) {
             case SAFE:
             case ERO:
             case EXPLICIT:
-                return new File(resolutionDirectory, rating.getName());
+                resolutionDirectory = new File(destinationDirectory, rating.getName());
+                break;
             default:
-                return new File(resolutionDirectory, MANUAL_SORT_DIRECTORY);
+                resolutionDirectory = new File(destinationDirectory, MANUAL_SORT_DIRECTORY);
+                break;
         }
+
+        switch (ratio) {
+            case CELL:
+            case HOME_PC:
+            case WORK_MONITORS:
+                return new File(resolutionDirectory, ratio.getResolution());
+            default:
+               return new File(resolutionDirectory, MANUAL_SORT_DIRECTORY);
+        }
+
     }
 }

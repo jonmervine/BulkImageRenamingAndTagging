@@ -2,7 +2,7 @@ package DarkMage530.BulkImager.BooruScraper.Boorus;
 
 import com.google.common.collect.Lists;
 import DarkMage530.BulkImager.Image;
-import DarkMage530.BulkImager.BooruScraper.IqdbImage;
+import DarkMage530.BulkImager.IQDB.IqdbImage;
 
 import java.io.File;
 import java.util.List;

@@ -1,7 +1,7 @@
 package DarkMage530.BulkImager;
 
-import DarkMage530.BulkImager.BooruScraper.IqdbException;
-import DarkMage530.BulkImager.BooruScraper.IqdbSearcher;
+import DarkMage530.BulkImager.IQDB.IqdbException;
+import DarkMage530.BulkImager.IQDB.IqdbSearcher;
 import DarkMage530.BulkImager.Metadata.MetadataExecption;
 import DarkMage530.BulkImager.Metadata.XMPManager;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public class FileNavigatorTest {
         IqdbSearcher searcher = new IqdbSearcher();
         Image image = null;
         try {
-            image = searcher.processFile(inputFile);
+            image = searcher.searchBoorus(inputFile);
         }catch (IqdbException e) {
             log.error("Exception trying to process iqdb file");
         }
