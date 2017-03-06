@@ -2,7 +2,7 @@ package DarkMage530.BulkImager.Boorus;
 
 import com.google.common.collect.Lists;
 import DarkMage530.BulkImager.Image;
-import DarkMage530.BulkImager.IQDB.IqdbImage;
+import DarkMage530.BulkImager.Iqdb.IqdbImage;
 
 import java.io.File;
 import java.util.List;

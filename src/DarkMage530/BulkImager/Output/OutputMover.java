@@ -18,13 +18,13 @@ class OutputMover {
     private static final Logger log = LoggerFactory.getLogger(OutputMover.class);
 
     /**
-     * Will create any missing directories, if directories can't be created, FileMoverException will be thrown
+     * Will create any missing directories, if directories can't be created, OutputException will be thrown
      * @param sourceFile Must be a file not directory
      * @param outputFile Must be a file not directory
      * @return Will return false if file was not moved, true if it was moved
-     * @throws FileMoverException
+     * @throws OutputException
      */
-    public boolean moveFile(File sourceFile, File outputFile) throws FileMoverException {
+    public boolean moveFile(File sourceFile, File outputFile) throws OutputException {
         if (!sourceFile.isFile() || !outputFile.isFile()) {
             log.warn("Either sourceFile " + sourceFile.getPath() + " or outputFile " + outputFile.getPath() + " is not actually a file.");
             return false;
@@ -33,31 +33,31 @@ class OutputMover {
         try {
             Files.move(sourceFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            throw new FileMoverException("Could not move file " + sourceFile.getPath() + " to " + outputFile.getPath(), e);
+            throw new OutputException("Could not move file " + sourceFile.getPath() + " to " + outputFile.getPath(), e);
         }
         return true;
     }
 
     /**
-     * Will create any missing directories, if directories can't be created, FileMoverException will be thrown
+     * Will create any missing directories, if directories can't be created, OutputException will be thrown
      * @param pictureFile Must be a file not directory, the picture you want to copy to a new location
      * @param outputFile Must be a file not directory, the directory you want to move the image to
      * @return Will return false if file was not copied, true if it was copied
-     * @throws FileMoverException
+     * @throws OutputException
      */
-    public boolean copyFile(PictureFile pictureFile, File outputFile) throws FileMoverException {
+    public boolean copyFile(PictureFile pictureFile, File outputFile) throws OutputException {
         createDirectoryIfNotExist(outputFile);
 
         try {
             Files.copy(pictureFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            throw new FileMoverException("Could not copy file " + pictureFile.toPath() + " to " + outputFile.getPath(), e);
+            throw new OutputException("Could not copy file " + pictureFile.toPath() + " to " + outputFile.getPath(), e);
         }
 
         return true;
     }
 
-    private void createDirectoryIfNotExist(File outputFile) throws FileMoverException {
+    private void createDirectoryIfNotExist(File outputFile) throws OutputException {
         File directory = outputFile.getParentFile();
 
         if (!directory.exists()) {
@@ -66,7 +66,7 @@ class OutputMover {
                 log.warn("First Failure to create directory(ies): " + directory.getPath() + " Trying again.");
                 succeed = directory.mkdirs();
                 if (!succeed) {
-                    throw new FileMoverException("Failed to create directories for output: " +  directory.getPath());
+                    throw new OutputException("Failed to create directories for output: " +  directory.getPath());
                 }
             }
         }

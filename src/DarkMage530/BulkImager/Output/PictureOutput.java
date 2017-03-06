@@ -35,9 +35,9 @@ public class PictureOutput {
             OutputMover mover = new OutputMover();
             mover.copyFile(pictureFile, destination);
             log.info("Copied pictureFile to " + destination.getPath());
-        } catch (FileMoverException e) {
+        } catch (OutputException e) {
             //TODO we need to handle if we can't move the file to the location we desired maybe the moveErroerd file method?
-            log.error("FileMoverException attempting to copyFile. ", e);
+            log.error("OutputException attempting to copyFile. ", e);
             //temporary solution of setting destination to the current current dictory so we don't break anything else
             destination = pictureFile.toPath().toFile();
         }
