@@ -1,7 +1,7 @@
 package DarkMage530.BulkImager;
 
-import DarkMage530.BulkImager.IQDB2.IqdbException;
-import DarkMage530.BulkImager.IQDB2.SearchIqdb;
+import DarkMage530.BulkImager.Iqdb.IqdbException;
+import DarkMage530.BulkImager.Iqdb.SearchIqdb;
 import DarkMage530.BulkImager.Metadata.MetadataExecption;
 import DarkMage530.BulkImager.Metadata.XMPManager;
 import org.junit.Test;

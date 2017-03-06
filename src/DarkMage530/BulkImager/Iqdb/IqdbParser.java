@@ -1,4 +1,4 @@
-package DarkMage530.BulkImager.IQDB2;
+package DarkMage530.BulkImager.Iqdb;
 
 import DarkMage530.BulkImager.Boorus.BooruImageFactory;
 import DarkMage530.BulkImager.Image;
