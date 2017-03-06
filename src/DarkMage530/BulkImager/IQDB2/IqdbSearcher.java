@@ -1,4 +1,4 @@
-package DarkMage530.BulkImager.IQDB;
+package DarkMage530.BulkImager.IQDB2;
 
 import DarkMage530.BulkImager.Image;
 import DarkMage530.BulkImager.PictureFile;
@@ -13,26 +13,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * Created by Shirobako on 6/20/2016.
+ * Created by DarkMage530 on 3/5/2017. For BulkImageRenamingAndTagging
+ * Current User Shirobako
  */
-public class IqdbSearcher {
+//package-private
+class IqdbSearcher {
 
     private static final Logger log = LoggerFactory.getLogger(IqdbSearcher.class);
 
-    public static final String IQDB_URL = "http://iqdb.org/";
-
-    public Image searchBoorus(PictureFile file) throws IqdbException {
-        //Take image and use jsoup to get html of the search
-
-        //parse out booru results
-
-        //compile booru results into object
-
-        //return booru result object
-
-
-
-
+    public void search(PictureFile pictureFile) {
         Image image = null;
         try (FileInputStream fin = new FileInputStream(file)) {
             Document doc = Jsoup.connect(IQDB_URL).data("file", file.getName(), fin).post();

@@ -1,4 +1,4 @@
-package DarkMage530.BulkImager.IQDB;
+package DarkMage530.BulkImager.IQDB2;
 
 /**
  * Created by Shirobako on 9/3/2016.
