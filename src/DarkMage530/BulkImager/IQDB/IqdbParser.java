@@ -1,6 +1,6 @@
 package DarkMage530.BulkImager.IQDB;
 
-import DarkMage530.BulkImager.BooruScraper.Boorus.BooruImageFactory;
+import DarkMage530.BulkImager.Boorus.BooruImageFactory;
 import DarkMage530.BulkImager.Image;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;

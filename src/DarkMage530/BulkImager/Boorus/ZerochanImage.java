@@ -1,4 +1,4 @@
-package DarkMage530.BulkImager.BooruScraper.Boorus;
+package DarkMage530.BulkImager.Boorus;
 
 import com.google.common.collect.Lists;
 import DarkMage530.BulkImager.Image;
@@ -10,15 +10,15 @@ import java.util.List;
 /**
  * Created by Shirobako on 10/1/2016.
  */
-public class DanbooruImage implements Image {
+public class ZerochanImage implements Image {
 
     private IqdbImage iqdbImage;
     private List<String> parsedTags;
     private File location;
 
-    public DanbooruImage(IqdbImage image) {
+    public ZerochanImage(IqdbImage image) {
         this.iqdbImage = image;
-        this.parsedTags = Lists.newArrayList(image.getRawTags().split(" "));
+        this.parsedTags = Lists.newArrayList(image.getRawTags().split(","));
     }
 
     public List<String> getTags() {
@@ -36,5 +36,4 @@ public class DanbooruImage implements Image {
     public String getRating() {
         return iqdbImage.getRating();
     }
-
 }
