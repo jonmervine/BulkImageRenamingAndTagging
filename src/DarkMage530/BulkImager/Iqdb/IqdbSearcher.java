@@ -22,7 +22,7 @@ class IqdbSearcher {
 
     public IqdbDocument search(PictureFile pictureFile) throws IqdbException {
         try (FileInputStream fin = new FileInputStream(pictureFile.asFile())) {
-            Document doc = Jsoup.connect(IQDB_URL).data("file", pictureFile.asFile().getName(), fin).post();
+            Document doc = Jsoup.connect(IQDB_URL).timeout(10000).data("file", pictureFile.asFile().getName(), fin).post();
             return new IqdbDocument(doc);
         } catch (IOException e) {
             throw new IqdbException("Exception while connecting to Iqdb", e);

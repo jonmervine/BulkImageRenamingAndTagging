@@ -19,13 +19,9 @@ class OutputLocator {
     private static final Logger log = LoggerFactory.getLogger(OutputLocator.class);
 
     public File getWallpaperOutputLocation(PictureFile pictureFile, File rootDirectory) {
-        return getWallpaperOutputLocation(pictureFile, ImageRating.UNKNOWN, rootDirectory);
-    }
-
-    public File getWallpaperOutputLocation(PictureFile pictureFile, ImageRating rating, File rootDirectory) {
         File destinationDirectory;
         destinationDirectory = new File(rootDirectory, WALLPAPER_DIRECTORY);
-        return buildWallpaperDirectory(destinationDirectory, pictureFile.getImageRatio(), rating);
+        return buildWallpaperDirectory(destinationDirectory, pictureFile.getImageRatio(), pictureFile.getRating());
     }
 
     private File buildWallpaperDirectory(File destinationDirectory, ImageRatios ratio, ImageRating rating) {

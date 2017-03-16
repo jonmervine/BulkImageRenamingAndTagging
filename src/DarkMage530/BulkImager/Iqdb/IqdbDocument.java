@@ -6,7 +6,6 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,12 +31,8 @@ class IqdbDocument {
         Elements elements = doc.getElementsByTag("table");
         IqdbMatch bestMatch = null;
         List<IqdbMatch> additionalMatches = new LinkedList<>();
-        for (int i = 0; i < elements.size(); i++) {
+        for (int i = 1; i < elements.size(); i++) {
             //iterating through all the table elements. First one is your uploaded image
-            //Last <td> is the image dimension
-            if (i == 0) {
-                continue;
-            }
 
             //Each table is one "card" on iqdb so only the second one will be the "best match"
             Element element = elements.get(i);
@@ -46,13 +41,15 @@ class IqdbDocument {
             Elements noMatch = element.getElementsContainingText("No relevant matches");
             if (noMatch.size() > 0) {
                 log.warn("There was no relevant match for this document");
-                break;
+//                break;
+                return null;
             }
-
-            Elements possibleMatchElement = element.getElementsContainingText("Possible match");
-            if (possibleMatchElement.size() > 0) {
-                additionalMatches.add(iqdbElement.explode(IqdbMatchType.NO_RELEVANT_BUT_POSSIBLE));
-            }
+//            TODO I don't think we can determine if these are even relevant. So once we see 'No relevent matches' we can
+//            just call it there. We won't need 'Possible Match' yet
+//            Elements possibleMatchElement = element.getElementsContainingText("Possible match");
+//            if (possibleMatchElement.size() > 0) {
+//                additionalMatches.add(iqdbElement.explode(IqdbMatchType.NO_RELEVANT_BUT_POSSIBLE));
+//            }
 
             //Second element will provide all the information you need. going into the similarity and all that is a waste of time
             //Use the similarity search for Best Match to identify the element that is best match if you don't trust the 2nd.
@@ -68,8 +65,8 @@ class IqdbDocument {
             }
         }
 
-        if (bestMatch == null) {
-            log.warn("No Best Match found, taking first additionalMatch");
+        if (bestMatch == null && !additionalMatches.isEmpty()) {
+            log.warn("No Best Match found, taking first additionalMatch, does this ever happen?");
             bestMatch = additionalMatches.remove(0);
         }
 

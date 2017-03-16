@@ -18,7 +18,7 @@ public class DanbooruImage implements Image {
 
     public DanbooruImage(IqdbImage image) {
         this.iqdbImage = image;
-        this.parsedTags = Lists.newArrayList(image.getRawTags().split(" "));
+//        this.parsedTags = Lists.newArrayList(image.getRawTags().split(" "));
     }
 
     public List<String> getTags() {
@@ -34,7 +34,7 @@ public class DanbooruImage implements Image {
     }
 
     public String getRating() {
-        return iqdbImage.getRating();
+        return "";//iqdbImage.getRating();
     }
 
 }

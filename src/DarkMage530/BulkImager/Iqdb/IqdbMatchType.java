@@ -8,8 +8,8 @@ public enum IqdbMatchType {
 
     BEST("best"),
     ADDITIONAL("additional"),
-    NO_RELEVANT_BUT_POSSIBLE("possible"),
-    OTHER("other"),
+    NO_RELEVANT_BUT_POSSIBLE("possible"), //not sure if needed
+    OTHER("other"), //not sure if needed
     UNKNOWN("unknown");
 
 

@@ -30,7 +30,7 @@ public class BooruImageFactory {
     }
 
     public static Image getBooru(IqdbImage image) {
-
+/*
         if (image.getSource().equalsIgnoreCase(BooruList.ANIME_GALLERY.name)
                 || image.getSource().equalsIgnoreCase(BooruList.E_SHUUSHUU.name)
                 || image.getSource().equalsIgnoreCase(BooruList.SANKAKU_COMPLEX.name)
@@ -49,5 +49,7 @@ public class BooruImageFactory {
             return null;
         }
 
+*/
+        return null;
     }
 }

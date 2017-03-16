@@ -20,7 +20,7 @@ class IqdbElement {
 
     private Element element;
 
-    public IqdbElement(Element element ) {
+    public IqdbElement(Element element) {
         this.element = element;
     }
 

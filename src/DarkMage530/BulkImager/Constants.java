@@ -9,4 +9,6 @@ public class Constants {
     public static final String ORIGINAL_DIRECTORY = "#Originals";
     public static final String CROSSOVER_DIRECTORY = "#Crossovers";
     public static final String MANUAL_SORT_DIRECTORY = "#ManualSort";
+
+    public static final int AcceptedSimilarity = 60;
 }

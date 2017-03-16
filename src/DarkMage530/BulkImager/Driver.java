@@ -1,9 +1,6 @@
 package DarkMage530.BulkImager;
 
-import DarkMage530.BulkImager.Iqdb.IqdbException;
 import DarkMage530.BulkImager.Iqdb.SearchIqdb;
-import DarkMage530.BulkImager.Metadata.MetadataExecption;
-import DarkMage530.BulkImager.Metadata.XMPManager;
 import DarkMage530.BulkImager.Output.PictureOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +16,8 @@ public class Driver {
     private static final Logger log = LoggerFactory.getLogger(Driver.class);
 
     //    private static final Output testRoot = new Output("D:\\Downloads\\derp\\test");
-//    private static final File testRoot = new File("D:\\Downloads\\derp - Copy");
-    private static final File testRoot = new File("D:\\Downloads\\bleep");
+    private static final File testRoot = new File("D:\\Downloads\\derp - Copy");
+//    private static final File testRoot = new File("D:\\Downloads\\bleep");
     //    private static final Output moveRoot = new Output("D:\\Downloads\\derp\\moved");
     private static final File moveRoot = new File("D:\\Downloads\\moved");
 
@@ -40,7 +37,7 @@ public class Driver {
         for (File file : recusiveRoot.listFiles()) {
             if (file.isDirectory()) {
                 recursivelyScanDirectories(file);
-                file.delete();
+//                file.delete();
             } else if (file.getName().endsWith(".jpeg") ||
                     file.getName().endsWith(".jpg") ||
                     file.getName().endsWith(".png") ||
