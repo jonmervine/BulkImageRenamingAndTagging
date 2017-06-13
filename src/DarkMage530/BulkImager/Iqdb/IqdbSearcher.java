@@ -5,9 +5,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.LinkedList;
 
 /**
  * Created by DarkMage530 on 3/5/2017. For BulkImageRenamingAndTagging

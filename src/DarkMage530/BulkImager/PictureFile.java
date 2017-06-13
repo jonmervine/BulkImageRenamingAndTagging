@@ -1,9 +1,11 @@
 package DarkMage530.BulkImager;
 
 import DarkMage530.BulkImager.Iqdb.IqdbImage;
+import com.google.common.collect.Lists;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.List;
 
 /**
  * Created by Shirobako on 3/5/2017.
@@ -13,11 +15,14 @@ public class PictureFile {
     private File file;
     private ImageRatios imageRatios;
     private IqdbImage iqdbImage;
+    private List<Action> actions = Lists.newLinkedList();
+    private File moveRoot;
 
-    public PictureFile(File file) {
+    public PictureFile(File file, File moveRoot) {
         this.file = file;
         this.path = file.toPath();
         this.imageRatios = ImageRatios.getImageRatio(file);
+        this.moveRoot = moveRoot;
     }
 
     public void updateFileLocation(File file) {
@@ -64,6 +69,20 @@ public class PictureFile {
             return ImageRating.UNKNOWN;
         }
         else return iqdbImage.getBestRating();
+    }
+
+    public void addNextAction(Action action) {
+        actions.add(action);
+    }
+
+    public void execute() {
+        while (!actions.isEmpty()) {
+            actions.remove(0).execute();
+        }
+    }
+
+    public File getMoveRoot() {
+        return moveRoot;
     }
 
     @Override

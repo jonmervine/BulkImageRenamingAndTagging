@@ -1,28 +1,32 @@
 package DarkMage530.BulkImager.Output;
 
+import DarkMage530.BulkImager.BirtConfiguration;
 import DarkMage530.BulkImager.PictureFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.LinkedList;
 
 /**
  * Created by Shirobako on 10/2/2016.
  */
+@Component
 public class PictureOutput {
 
     private static final Logger log = LoggerFactory.getLogger(PictureOutput.class);
-
 
     public PictureFile move(PictureFile pictureFile, File moveRoot) {
         //TODO  not implemented
         return null;
     }
 
-    public PictureFile copyWallpaper(PictureFile pictureFile, File moveRoot) {
+    public PictureFile copy(PictureFile pictureFile) {
         //where file should go in root
         OutputLocator locator = new OutputLocator();
-        File destinationDirectory = locator.getWallpaperOutputLocation(pictureFile, moveRoot);
+        File destinationDirectory = locator.getWallpaperOutputLocation(pictureFile, pictureFile.getMoveRoot());
         log.debug("pictureFile's destination is: " + destinationDirectory.getPath());
 
         //what new file name is in root (duplicates)

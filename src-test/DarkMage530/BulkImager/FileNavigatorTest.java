@@ -8,7 +8,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Shirobako on 4/24/2016.
@@ -68,8 +70,75 @@ public class FileNavigatorTest {
         }*/
     }
 
-    @Test
-    public void testMoveFiles() {
+    public interface Mine {
+        void addNext();
+    }
 
+    @Test
+    public void testListOf() {
+
+        List<Mine> derp = new ArrayList();
+        derp.add(() -> System.out.println("first"));
+        derp.add(() -> System.out.println("second"));
+
+        for (Mine mine : derp) {
+            mine.addNext();
+        }
+    }
+
+    @Test
+    public void createcsv() {
+        try {
+            writer = new FileWriter("D:\\P\\images.csv");
+            writer.append("md5,filename\n");
+        } catch (IOException e) {
+            log.error("fuck", e);
+        }
+
+        recursivelyScanDirectories(new File("D:\\P\\Fiction"));
+        log.info("final count: " + total);
+        try {
+            writer.close();
+        } catch (IOException e) {
+            log.error("close:", e);
+        }
+    }
+
+    private void recursivelyScanDirectories(File recusiveRoot) {
+        for (File file : recusiveRoot.listFiles()) {
+            if (file.isDirectory()) {
+                recursivelyScanDirectories(file);
+            } else if (file.getName().endsWith(".jpeg") ||
+                    file.getName().endsWith(".jpg") ||
+                    file.getName().endsWith(".png") ||
+                    file.getName().endsWith(".gif")) {
+                processFile(file);
+            } else if (file.getName().endsWith("picasa.ini")) {
+                file.delete();
+            }
+        }
+    }
+
+    private FileWriter writer;
+    private int i = 0;
+    private int total = 0;
+
+    private void processFile(File file) {
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            String md5 = org.apache.commons.codec.digest.DigestUtils.md5Hex(fis);
+            fis.close();
+
+            writer.append(md5 + "," + file.toPath().getFileName() + "\n");
+            i++;
+            if (i > 1000) {
+                total += i;
+                i = 0;
+                System.out.println("Total: " + total);
+            }
+
+        } catch (IOException e) {
+            log.error("shit fucked up: ", e);
+        }
     }
 }

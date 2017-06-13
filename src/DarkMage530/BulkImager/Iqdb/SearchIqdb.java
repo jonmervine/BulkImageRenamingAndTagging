@@ -4,14 +4,17 @@ import DarkMage530.BulkImager.Image;
 import DarkMage530.BulkImager.PictureFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import java.util.LinkedList;
 
 /**
  * Created by Shirobako on 6/20/2016.
  */
+@Component
 public class SearchIqdb {
 
     private static final Logger log = LoggerFactory.getLogger(SearchIqdb.class);
-
 
     public PictureFile searchBoorus(PictureFile pictureFile) {
         //Take image and use jsoup to get html of the search
