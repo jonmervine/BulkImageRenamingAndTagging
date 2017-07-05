@@ -1,6 +1,7 @@
 package DarkMage530.BulkImager;
 
 import DarkMage530.BulkImager.Iqdb.SearchIqdb;
+import DarkMage530.BulkImager.Md5.Md5Lookup;
 import DarkMage530.BulkImager.Output.PictureOutput;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
@@ -39,6 +40,9 @@ public class Driver implements Runnable {
 
     @Autowired
     private PictureOutput outputResult;
+
+    @Autowired
+    private Md5Lookup lookup;
 
     private final Object queueLock = new Object();
 
@@ -115,6 +119,7 @@ public class Driver implements Runnable {
         if (pictureFile.isWallpaper() && config.isFindWallpaper()) {
             log.info("pictureFile is wallpaper");
 
+            pictureFile.addNextAction(() -> lookup.lookup(pictureFile));
             pictureFile.addNextAction(() -> searcher.searchBoorus(pictureFile));
             pictureFile.addNextAction(() -> outputResult.copy(pictureFile));
 //            synchronized (queueLock) {
