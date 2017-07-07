@@ -21,6 +21,7 @@ public class BirtConfiguration {
     private boolean defaultLocation;
     private File wallpaperLocationOverride;
 
+    private File localDatabase;
     private char seperator;
     private char quoteChar;
 
@@ -33,6 +34,7 @@ public class BirtConfiguration {
         defaultLocation = Boolean.valueOf(prop.getProperty("wallpaper.default.location"));
         wallpaperLocationOverride = new File(prop.getProperty("wallpaper.location.override"));
 
+        this.localDatabase = new File(prop.getProperty("csv.local.database"));
         seperator = prop.getProperty("csv.seperator").charAt(1);
         quoteChar = prop.getProperty("csv.quote.char").charAt(1);
     }
@@ -64,6 +66,8 @@ public class BirtConfiguration {
     public File getWallpaperLocationOverride() {
         return wallpaperLocationOverride;
     }
+
+    public File getLocalDatabase() { return localDatabase; }
 
     public char getSeperator() { return seperator; }
 

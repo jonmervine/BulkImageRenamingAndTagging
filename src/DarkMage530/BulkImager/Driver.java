@@ -120,7 +120,6 @@ public class Driver implements Runnable {
             log.info("pictureFile is wallpaper");
 
             pictureFile.addNextAction(() -> lookup.lookup(pictureFile));
-            pictureFile.addNextAction(() -> searcher.searchBoorus(pictureFile));
             pictureFile.addNextAction(() -> outputResult.copy(pictureFile));
 //            synchronized (queueLock) {
                 concurrentQueue.add(pictureFile);

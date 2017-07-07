@@ -35,7 +35,7 @@ public class CsvTestRunner {
         config.build(prop);
 
         CsvReaderWriter importer = context.getBean(CsvReaderWriter.class);
-        ConsolidatedCsvEntries entries = importer.importCsv(new File("D:\\Downloads\\mymatchedposts.csv"));
+        ConsolidatedCsvEntries entries = importer.importCsv(config.getLocalDatabase());
         importer.exportCsv(entries, new File("D:\\Downloads\\myoutput.csv"));
 
         try {

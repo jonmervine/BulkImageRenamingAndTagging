@@ -5,6 +5,7 @@ import com.google.common.collect.ListMultimap;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,5 +25,7 @@ public class ConsolidatedCsvEntries {
     public Collection<Map.Entry<String, SingleCsvEntry>> getEntrySet() {
         return entries.entries();
     }
+
+    public List<SingleCsvEntry> get(String md5) { return entries.get(md5); }
 
 }
