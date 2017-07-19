@@ -35,19 +35,45 @@ public class Main {
         config.build(prop);
 
         Driver driver = context.getBean(Driver.class);
-        driver.startThreads();
 
         try {
             driver.drive();
         } catch (Exception e) {
             log.error("Failure", e);
-            driver.stopThreads();
             throw new RuntimeException(e);
         }
     }
 }
 
+    /*    Current (maybe) issues:
+        Need Multi threading slow <- limited due to the hits to iqdb i can make "on iqdb it's 60 requests per floating 5 minute window"
+        maybe connection pool c3po
+        Not doing anything with indivudal boorus yet
+     */
+
 /*
-flow
+flow (Creating wallpaper structure)
+
+!! Read in config settings
+!! import local csv DB <- All Known
+!! Import Wallpaper csvDB <- just wallpapers
+!! start scanning from 'need to sort' bucket
+!! filter any images of a certain resolution
+!! check md5 to wallpaper DB
+    ?? other potential workflows
+    for purpose of wallpapers though this file is done (maybe duplicate/move to a 'to delete folder')
+check md5 to local DB
+    copy file to wallpaper directory
+    tag jpgs, rename with tags
+    update wallpaper dbs
+? Take md5 to check boorus directly
+    ? parse web info
+    ? copy files to wallpaper directory
+    ? tag jpgs rename with tags
+    ? update local and wallpaper dbs
+search iqdb to get rating and tags
+    copy files to wallpaper directory
+    tag jpgs, rename with tags
+    update local and wallpaper dbs
 
  */

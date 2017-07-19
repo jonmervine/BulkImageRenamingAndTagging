@@ -1,9 +1,9 @@
 package DarkMage530.BulkImager;
 
+import DarkMage530.BulkImager.Csv.SingleCsvEntry;
 import DarkMage530.BulkImager.Iqdb.SearchIqdb;
 import DarkMage530.BulkImager.Md5.Md5Lookup;
 import DarkMage530.BulkImager.Output.PictureOutput;
-import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,24 +11,13 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by DarkMage530 on 4/23/2016. For BulkImageRenamingAndTagging
  * Current User Shirobako
  */
 @Component
-public class Driver implements Runnable {
-
-    /*    Current issues:
-        Need Multi threading slow
-        Updating Wallpapers will process a lot of duplicates because we are doing a copy and not a move
-        Not doing anything with indivudal boorus yet, just scraping iqdb
-        maybe connection pool c3po
-
-        pre scan using md5 lookup to boorus before iqdb. "on iqdb it's 60 requests per floating 5 minute window"
-     */
+public class Driver {
 
     private static final Logger log = LoggerFactory.getLogger(Driver.class);
 
@@ -44,12 +33,6 @@ public class Driver implements Runnable {
     @Autowired
     private Md5Lookup lookup;
 
-    private final Object queueLock = new Object();
-
-//    private List<PictureFile> queue = Lists.newLinkedList();
-
-    private Queue<PictureFile> concurrentQueue = new ConcurrentLinkedQueue();
-
     public void drive() {
         if (config.isFindWallpaper()) {
             File moveRoot;
@@ -60,41 +43,6 @@ public class Driver implements Runnable {
             }
             recursivelyScanDirectories(config.getScanLocation(), moveRoot);
         }
-
-        boolean endApp = false;
-        while (!endApp) {
-            log.info("Waiting for threads to finish before ending App, queue size: " + concurrentQueue.size());
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-            }
-//            synchronized (queueLock) {
-                if (concurrentQueue.isEmpty()) {
-                    endApp = true;
-                    stopThreads();
-                }
-//            }
-        }
-        while (continueRunning) {
-            log.info("Waiting for Threads to Stop");
-            try {
-                Thread.sleep(60000);
-            } catch (InterruptedException e) {
-            }
-        }
-    }
-
-    private List<Thread> threads = Lists.newArrayList();
-    public void startThreads() {
-        for (int i = 0; i < 10; i++) {
-            Thread myThread = new Thread(this);
-            myThread.start();
-            threads.add(myThread);
-        }
-    }
-
-    public void stopThreads() {
-        continueRunning = false;
     }
 
     private void recursivelyScanDirectories(File recusiveRoot, File moveRoot) {
@@ -118,13 +66,28 @@ public class Driver implements Runnable {
 
         if (pictureFile.isWallpaper() && config.isFindWallpaper()) {
             log.info("pictureFile is wallpaper");
-
-            pictureFile.addNextAction(() -> lookup.lookup(pictureFile));
-            pictureFile.addNextAction(() -> outputResult.copy(pictureFile));
-//            synchronized (queueLock) {
-                concurrentQueue.add(pictureFile);
-//            }
+            processWallpapers(pictureFile);
         }
+    }
+
+    private void processWallpapers(PictureFile pictureFile) {
+        List<SingleCsvEntry> foundWallpapers = lookup.wallpaperLookup(pictureFile);
+
+        if (!foundWallpapers.isEmpty()) {
+            //handle foundwallpapers, already in wallpaper directory
+        }
+
+        foundWallpapers = lookup.allLookup(pictureFile);
+
+        if (!foundWallpapers.isEmpty()) {
+            outputResult.copy(pictureFile);
+            //handle found entry in all database
+            //need to copy to wallpaper directory
+            //need to tag file if jpg
+            // need to rename file
+            // need to update wallpaper database
+        }
+
     }
 
     private void foundPicture(File file) {
@@ -156,36 +119,5 @@ public class Driver implements Runnable {
 //            outputResult.moveErroredFile(file);
             log.info("Image was null, moved to Manual sort");
         }*/
-    }
-
-    private volatile boolean continueRunning = true;
-
-    @Override
-    public void run() {
-        log.info("Current Thread is: " + Thread.currentThread().getName() + " ID: " + Thread.currentThread().getId() + " To String " + Thread.currentThread().toString());
-
-        boolean isEmpty = true;
-        while (continueRunning) {
-            if (isEmpty) {
-                log.info("Queue is Empty");
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                }
-                isEmpty = false;
-            }
-            PictureFile pictureFile = null;
-//            synchronized (queueLock) {
-                if (!concurrentQueue.isEmpty()) {
-                    pictureFile = concurrentQueue.poll();
-                }
-//            }
-            if (pictureFile != null) {
-                log.info("Wallpaper to process");
-                pictureFile.execute();
-            } else {
-                isEmpty = true;
-            }
-        }
     }
 }

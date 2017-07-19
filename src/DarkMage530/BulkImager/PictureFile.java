@@ -17,7 +17,6 @@ public class PictureFile {
     private File file;
     private ImageRatios imageRatios;
     private IqdbImage iqdbImage;
-    private List<Action> actions = Lists.newLinkedList();
     private File moveRoot;
     private String md5;
 
@@ -82,16 +81,6 @@ public class PictureFile {
             return ImageRating.UNKNOWN;
         }
         else return iqdbImage.getBestRating();
-    }
-
-    public void addNextAction(Action action) {
-        actions.add(action);
-    }
-
-    public void execute() {
-        while (!actions.isEmpty()) {
-            actions.remove(0).execute();
-        }
     }
 
     public File getMoveRoot() {
