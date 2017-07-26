@@ -1,5 +1,6 @@
 package DarkMage530.BulkImager.Csv;
 
+import DarkMage530.BulkImager.ImageRating;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -72,6 +73,8 @@ public class SingleCsvEntry {
     public String getMd5() {
         return md5;
     }
+
+    public ImageRating getRating() { return ImageRating.getImageRating(rating); }
 
     public String[] csvLine() {
         return new String[]{md5, String.valueOf(booruId), booru, fileExt,

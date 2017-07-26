@@ -1,8 +1,7 @@
 package DarkMage530.BulkImager.Boorus;
 
-import com.google.common.collect.Lists;
 import DarkMage530.BulkImager.Image;
-import DarkMage530.BulkImager.Iqdb.IqdbImage;
+import DarkMage530.BulkImager.Metadata.RatingSearch;
 
 import java.io.File;
 import java.util.List;
@@ -12,12 +11,12 @@ import java.util.List;
  */
 public class DanbooruImage implements Image {
 
-    private IqdbImage iqdbImage;
+    private RatingSearch ratingSearch;
     private List<String> parsedTags;
     private File location;
 
-    public DanbooruImage(IqdbImage image) {
-        this.iqdbImage = image;
+    public DanbooruImage(RatingSearch image) {
+        this.ratingSearch = image;
 //        this.parsedTags = Lists.newArrayList(image.getRawTags().split(" "));
     }
 
@@ -34,7 +33,7 @@ public class DanbooruImage implements Image {
     }
 
     public String getRating() {
-        return "";//iqdbImage.getRating();
+        return "";//ratingSearch.getRating();
     }
 
 }

@@ -1,5 +1,6 @@
 package DarkMage530.BulkImager.Iqdb;
 
+import DarkMage530.BulkImager.Metadata.RatingSearch;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -26,7 +27,7 @@ class IqdbDocument {
         this.doc = doc;
     }
 
-    public IqdbImage explode() {
+    public RatingSearch explode() {
         //Elements is a set of all of the <table> elements
         Elements elements = doc.getElementsByTag("table");
         IqdbMatch bestMatch = null;
@@ -70,6 +71,6 @@ class IqdbDocument {
             bestMatch = additionalMatches.remove(0);
         }
 
-        return new IqdbImage(bestMatch, additionalMatches);
+        return new RatingSearch(bestMatch, additionalMatches);
     }
 }

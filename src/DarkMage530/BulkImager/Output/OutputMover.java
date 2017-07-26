@@ -3,6 +3,7 @@ package DarkMage530.BulkImager.Output;
 import DarkMage530.BulkImager.PictureFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.nio.file.StandardCopyOption;
 /**
  * Created by Shirobako on 1/2/2017.
  */
+@Component
 //Package-private
 class OutputMover {
 

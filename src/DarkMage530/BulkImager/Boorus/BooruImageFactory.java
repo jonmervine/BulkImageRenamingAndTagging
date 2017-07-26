@@ -1,6 +1,6 @@
 package DarkMage530.BulkImager.Boorus;
 
-import DarkMage530.BulkImager.Iqdb.IqdbImage;
+import DarkMage530.BulkImager.Metadata.RatingSearch;
 import DarkMage530.BulkImager.Image;
 
 /**
@@ -29,7 +29,7 @@ public class BooruImageFactory {
     private BooruImageFactory() {
     }
 
-    public static Image getBooru(IqdbImage image) {
+    public static Image getBooru(RatingSearch image) {
 /*
         if (image.getSource().equalsIgnoreCase(BooruList.ANIME_GALLERY.name)
                 || image.getSource().equalsIgnoreCase(BooruList.E_SHUUSHUU.name)

@@ -1,13 +1,11 @@
 package DarkMage530.BulkImager;
 
-import DarkMage530.BulkImager.Iqdb.IqdbImage;
-import com.google.common.collect.Lists;
+import DarkMage530.BulkImager.Metadata.RatingSearch;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 
 /**
  * Created by Shirobako on 3/5/2017.
@@ -16,7 +14,7 @@ public class PictureFile {
     private Path path;
     private File file;
     private ImageRatios imageRatios;
-    private IqdbImage iqdbImage;
+    private RatingSearch ratingSearch;
     private File moveRoot;
     private String md5;
 
@@ -40,9 +38,9 @@ public class PictureFile {
         this.path = file.toPath();
     }
 
-    public void setIqdbImage(IqdbImage iqdbImage) {
-        this.iqdbImage = iqdbImage;
-    }
+//    public void setIqdbImage(RatingSearch ratingSearch) {
+//        this.ratingSearch = ratingSearch;
+//    }
 
     public File asFile() { return file; }
 
@@ -76,12 +74,12 @@ public class PictureFile {
         return imageRatios.isWallpaper();
     }
 
-    public ImageRating getRating() {
-        if (iqdbImage == null) {
-            return ImageRating.UNKNOWN;
-        }
-        else return iqdbImage.getBestRating();
-    }
+//    public ImageRating getRating() {
+//        if (ratingSearch == null) {
+//            return ImageRating.UNKNOWN;
+//        }
+//        else return ratingSearch.getBestRating();
+//    }
 
     public File getMoveRoot() {
         return moveRoot;

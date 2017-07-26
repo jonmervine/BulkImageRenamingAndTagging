@@ -60,9 +60,11 @@ flow (Creating wallpaper structure)
 !! start scanning from 'need to sort' bucket
 !! filter any images of a certain resolution
 !! check md5 to wallpaper DB
+    if found
     ?? other potential workflows
     for purpose of wallpapers though this file is done (maybe duplicate/move to a 'to delete folder')
 check md5 to local DB
+    if found
     copy file to wallpaper directory
     tag jpgs, rename with tags
     update wallpaper dbs

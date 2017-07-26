@@ -1,12 +1,10 @@
 package DarkMage530.BulkImager.Iqdb;
 
-import DarkMage530.BulkImager.Image;
+import DarkMage530.BulkImager.Metadata.RatingSearch;
 import DarkMage530.BulkImager.PictureFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.LinkedList;
 
 /**
  * Created by Shirobako on 6/20/2016.
@@ -29,8 +27,8 @@ public class SearchIqdb {
 
         //parse out booru results
         IqdbParser parser = new IqdbParser();
-        IqdbImage iqdbImage = parser.parse(iqdbDocument);
-        pictureFile.setIqdbImage(iqdbImage);
+        RatingSearch ratingSearch = parser.parse(iqdbDocument);
+        pictureFile.setIqdbImage(ratingSearch);
 
         //compile booru results into object
 

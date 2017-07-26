@@ -1,6 +1,6 @@
 package DarkMage530.BulkImager.Output;
 
-import DarkMage530.BulkImager.BirtConfiguration;
+import DarkMage530.BulkImager.Metadata.Metadata;
 import DarkMage530.BulkImager.PictureFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.util.LinkedList;
 
 /**
  * Created by Shirobako on 10/2/2016.
@@ -16,27 +15,33 @@ import java.util.LinkedList;
 @Component
 public class PictureOutput {
 
+    @Autowired
+    private OutputLocator locator;
+
+    @Autowired
+    private OutputMover mover;
+
+    @Autowired
+    private OutputNamer namer;
+
     private static final Logger log = LoggerFactory.getLogger(PictureOutput.class);
 
-    public PictureFile move(PictureFile pictureFile, File moveRoot) {
+    public PictureFile move(PictureFile pictureFile, Metadata metadata) {
         //TODO  not implemented
         return null;
     }
 
-    public PictureFile copy(PictureFile pictureFile) {
+    public PictureFile copy(PictureFile pictureFile, Metadata metadata) {
         //where file should go in root
-        OutputLocator locator = new OutputLocator();
-        File destinationDirectory = locator.getWallpaperOutputLocation(pictureFile, pictureFile.getMoveRoot());
+        File destinationDirectory = locator.getWallpaperOutputLocation(pictureFile, metadata);
         log.debug("pictureFile's destination is: " + destinationDirectory.getPath());
 
         //what new file name is in root (duplicates)
-        OutputNamer namer = new OutputNamer();
         File destination = namer.createSimpleOutputImageName(pictureFile, destinationDirectory);
         log.debug("pictureFile's name will be: " + destination.toPath().getFileName().toString());
 
         try {
             //copy file to new location
-            OutputMover mover = new OutputMover();
             mover.copyFile(pictureFile, destination);
             log.info("Copied pictureFile to " + destination.getPath());
         } catch (OutputException e) {

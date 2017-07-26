@@ -1,8 +1,8 @@
 package DarkMage530.BulkImager;
 
-import DarkMage530.BulkImager.Csv.SingleCsvEntry;
 import DarkMage530.BulkImager.Iqdb.SearchIqdb;
 import DarkMage530.BulkImager.Md5.Md5Lookup;
+import DarkMage530.BulkImager.Metadata.Metadata;
 import DarkMage530.BulkImager.Output.PictureOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Created by DarkMage530 on 4/23/2016. For BulkImageRenamingAndTagging
@@ -71,17 +70,18 @@ public class Driver {
     }
 
     private void processWallpapers(PictureFile pictureFile) {
-        List<SingleCsvEntry> foundWallpapers = lookup.wallpaperLookup(pictureFile);
+        Metadata foundWallpapers = lookup.wallpaperLookup(pictureFile);
 
         if (!foundWallpapers.isEmpty()) {
             //handle foundwallpapers, already in wallpaper directory
+            return;
         }
 
         foundWallpapers = lookup.allLookup(pictureFile);
 
         if (!foundWallpapers.isEmpty()) {
-            outputResult.copy(pictureFile);
-            //handle found entry in all database
+
+            outputResult.copy(pictureFile, foundWallpapers);
             //need to copy to wallpaper directory
             //need to tag file if jpg
             // need to rename file
