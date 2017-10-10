@@ -19,7 +19,7 @@ import java.util.Properties;
 @Configuration
 @ComponentScan
 public class Main {
-    private static final Logger log = LoggerFactory.getLogger(Driver.class);
+    private static final Logger log = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
 
@@ -61,13 +61,13 @@ flow (Creating wallpaper structure)
 !! filter any images of a certain resolution
 !! check md5 to wallpaper DB
     if found
-    ?? other potential workflows
-    for purpose of wallpapers though this file is done (maybe duplicate/move to a 'to delete folder')
+        ?? other potential workflows
+        for purpose of wallpapers though this file is done (maybe duplicate/move to a 'to delete folder')
 check md5 to local DB
     if found
-    copy file to wallpaper directory
-    tag jpgs, rename with tags
-    update wallpaper dbs
+!!      copy file to wallpaper directory
+        tag jpgs, rename with tags
+        update wallpaper dbs
 ? Take md5 to check boorus directly
     ? parse web info
     ? copy files to wallpaper directory

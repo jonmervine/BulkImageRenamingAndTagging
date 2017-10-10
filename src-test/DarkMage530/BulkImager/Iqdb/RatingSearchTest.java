@@ -8,8 +8,8 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,12 +21,19 @@ import java.util.List;
 @RunWith(MockitoJUnitRunner.class)
 public class RatingSearchTest {
 
-    @Autowired
+    @InjectMocks
     private RatingSearch ratingSearch;
+
 
     @Test
     public void testGetAverageRating() throws Exception {
-        List<ImageRating> ratings = Lists.newArrayList(ImageRating.SAFE, ImageRating.EXPLICIT, ImageRating.UNKNOWN, ImageRating.ERO);
+        List<ImageRating> ratings = Lists.newArrayList(ImageRating.ERO, ImageRating.EXPLICIT, ImageRating.UNKNOWN, ImageRating.ERO);
+        Assert.assertEquals(ImageRating.EXPLICIT, ratingSearch.getAverageRating(ratings));
+    }
+
+    @Test
+    public void testGetAverageIfUnknown() throws Exception {
+        List<ImageRating> ratings = Lists.newArrayList(ImageRating.UNKNOWN, ImageRating.UNKNOWN, ImageRating.UNKNOWN);
         Assert.assertEquals(ImageRating.EXPLICIT, ratingSearch.getAverageRating(ratings));
     }
 

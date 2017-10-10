@@ -81,11 +81,13 @@ public class Driver {
 
         if (!foundWallpapers.isEmpty()) {
 
-            outputResult.copy(pictureFile, foundWallpapers);
             //need to copy to wallpaper directory
+            outputResult.copy(pictureFile, foundWallpapers);
+
             //need to tag file if jpg
             // need to rename file
             // need to update wallpaper database
+            // need to delete leftover
         }
 
     }

@@ -1,5 +1,6 @@
 package DarkMage530.BulkImager.Output;
 
+import DarkMage530.BulkImager.BirtConfiguration;
 import DarkMage530.BulkImager.ImageRating;
 import DarkMage530.BulkImager.ImageRatios;
 import DarkMage530.BulkImager.Metadata.Metadata;
@@ -7,6 +8,7 @@ import DarkMage530.BulkImager.PictureFile;
 import com.drew.metadata.MetadataException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -23,6 +25,9 @@ import static DarkMage530.BulkImager.Constants.WALLPAPER_DIRECTORY;
 class OutputLocator {
     private static final Logger log = LoggerFactory.getLogger(OutputLocator.class);
 
+    @Autowired
+    private BirtConfiguration config;
+
     public File getWallpaperOutputLocation(PictureFile pictureFile, Metadata metadata) {
         File destinationDirectory;
         destinationDirectory = new File(pictureFile.getMoveRoot(), WALLPAPER_DIRECTORY);
@@ -38,15 +43,17 @@ class OutputLocator {
             rating = ImageRating.UNKNOWN;
         }
 
-        File resolutionDirectory;
+        File ratingTypeDirectory = new File(destinationDirectory, config.getRatingType().name());
+
+        File ratingDirectory;
         switch (rating) {
             case SAFE:
             case ERO:
             case EXPLICIT:
-                resolutionDirectory = new File(destinationDirectory, rating.getName());
+                ratingDirectory = new File(ratingTypeDirectory, rating.getName());
                 break;
             default:
-                resolutionDirectory = new File(destinationDirectory, MANUAL_SORT_DIRECTORY);
+                ratingDirectory = new File(ratingTypeDirectory, MANUAL_SORT_DIRECTORY);
                 break;
         }
 
@@ -54,9 +61,9 @@ class OutputLocator {
             case CELL:
             case HOME_PC:
             case WORK_MONITORS:
-                return new File(resolutionDirectory, ratio.getResolution());
+                return new File(ratingDirectory, ratio.getResolution());
             default:
-               return new File(resolutionDirectory, MANUAL_SORT_DIRECTORY);
+               return new File(ratingDirectory, MANUAL_SORT_DIRECTORY);
         }
 
     }

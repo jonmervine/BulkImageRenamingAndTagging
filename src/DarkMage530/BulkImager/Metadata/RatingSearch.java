@@ -39,7 +39,11 @@ public class RatingSearch {
         int ratingSum = ratings.stream()
                 .mapToInt(rating -> rating.ordinal()).sum();
 
-        return ImageRating.values()[(int) Math.round(ratingSum / (ratings.size() + 1 * 1.0))];
+        int proposedRating = (int) Math.round(ratingSum / (ratings.size() * 1.0));
+        if (proposedRating > ImageRating.EXPLICIT.ordinal()) {
+            proposedRating = ImageRating.EXPLICIT.ordinal();
+        }
+        return ImageRating.values()[proposedRating];
     }
 
     public ImageRating getHarshestRating(List<ImageRating> ratings) {
@@ -48,7 +52,6 @@ public class RatingSearch {
                 .get();
         return harshestRating;
     }
-
 
     @Deprecated
     public List<ImageRating> getAllRatings() {
