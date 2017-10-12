@@ -5,6 +5,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 @Component("readerWriter")
 public class CsvReaderWriter {
 
+    private static final Logger log = LoggerFactory.getLogger(CsvReaderWriter.class);
+
     @Autowired
     private BirtConfiguration config;
 
@@ -29,7 +33,7 @@ public class CsvReaderWriter {
             List<String[]> myEntries = reader.readAll();
 
             List<SingleCsvEntry> entries = myEntries.stream()
-                    .map(entry -> new SingleCsvEntry(entry))
+                    .map(SingleCsvEntry::new)
                     .collect(Collectors.toList());
 
             ListMultimap<String, SingleCsvEntry> multiMap = ArrayListMultimap.create();
@@ -40,11 +44,11 @@ public class CsvReaderWriter {
             return multiMap;
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error(csvFile.getName() + " not found trying to import CSV", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("IOException trying to import " + csvFile.getName(), e);
         }
-        throw new RuntimeException("fuckedup");
+        throw new RuntimeException("fuckedup importing db check logs");
     }
 
     public boolean exportCsv(ListMultimap<String, SingleCsvEntry> entries, File csvOutputFile) {
@@ -56,8 +60,8 @@ public class CsvReaderWriter {
 
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            log.error("IOException while trying to export csv file " + csvOutputFile.getName(), e);
+            throw new RuntimeException("fucked up exporting db, check log");
         }
     }
 }

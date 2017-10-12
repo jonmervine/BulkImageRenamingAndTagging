@@ -28,7 +28,7 @@ public class SearchIqdb {
         //parse out booru results
         IqdbParser parser = new IqdbParser();
         RatingSearch ratingSearch = parser.parse(iqdbDocument);
-        pictureFile.setIqdbImage(ratingSearch);
+//        pictureFile.setIqdbImage(ratingSearch);
 
         //compile booru results into object
 

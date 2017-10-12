@@ -20,7 +20,7 @@ public class WallpaperCsvDatabase implements CsvDatabase {
     //String is md5
     private ListMultimap<String, SingleCsvEntry> entries = ArrayListMultimap.create();
 
-    public WallpaperCsvDatabase() {
+    public void build() {
         this.entries = readerWriter.importCsv(config.getWallpaperDatabase());
     }
 

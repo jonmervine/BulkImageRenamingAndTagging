@@ -53,6 +53,7 @@ class OutputMover {
         try {
             Files.copy(pictureFile.asPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
+            log.error("Could not copy file " + pictureFile.asPath() + " to " + outputFile.getPath(), e);
             throw new OutputException("Could not copy file " + pictureFile.asPath() + " to " + outputFile.getPath(), e);
         }
 
@@ -68,6 +69,7 @@ class OutputMover {
                 log.warn("First Failure to create directory(ies): " + directory.getPath() + " Trying again.");
                 succeed = directory.mkdirs();
                 if (!succeed) {
+                    log.error("Failed to create directories for output: " +  directory.getPath());
                     throw new OutputException("Failed to create directories for output: " +  directory.getPath());
                 }
             }

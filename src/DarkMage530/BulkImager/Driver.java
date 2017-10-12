@@ -40,36 +40,37 @@ public class Driver {
             } else {
                 moveRoot = config.getWallpaperLocationOverride();
             }
-            recursivelyScanDirectories(config.getScanLocation(), moveRoot);
+            log.info("moveRoot=" + moveRoot);
+            recursivelyScanDirectoriesForWallpapers(config.getScanLocation(), moveRoot);
         }
     }
 
-    private void recursivelyScanDirectories(File recusiveRoot, File moveRoot) {
+    private void recursivelyScanDirectoriesForWallpapers(File recusiveRoot, File moveRoot) {
         for (File file : recusiveRoot.listFiles()) {
             if (file.isDirectory()) {
-                recursivelyScanDirectories(file, moveRoot);
+                recursivelyScanDirectoriesForWallpapers(file, moveRoot);
             } else if (file.getName().endsWith(".jpeg") ||
                     file.getName().endsWith(".jpg") ||
                     file.getName().endsWith(".png") ||
                     file.getName().endsWith(".gif")) {
-                processFile(file, moveRoot);
+                determineIfWallpaper(file, moveRoot);
             } else if (file.getName().endsWith("picasa.ini")) {
                 file.delete();
             }
         }
     }
 
-    private void processFile(File foundPicture, File moveRoot) {
+    private void determineIfWallpaper(File foundPicture, File moveRoot) {
         log.info("Found file " + foundPicture.getPath());
         final PictureFile pictureFile = new PictureFile(foundPicture, moveRoot);
 
-        if (pictureFile.isWallpaper() && config.isFindWallpaper()) {
+        if (pictureFile.isWallpaper()) {
             log.info("pictureFile is wallpaper");
-            processWallpapers(pictureFile);
+            processWallpaper(pictureFile);
         }
     }
 
-    private void processWallpapers(PictureFile pictureFile) {
+    private void processWallpaper(PictureFile pictureFile) {
         Metadata foundWallpapers = dbManager.wallpaperLookup(pictureFile);
 
         if (!foundWallpapers.isEmpty()) {

@@ -4,6 +4,7 @@ import DarkMage530.BulkImager.BirtConfiguration;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * Created by DarkMage530 on 7/1/2017. For BulkImageRenamingAndTagging
  * Current User Shirobako
  */
-@Component("allDatabase")
+@Component
 public class AllCsvDatabase implements CsvDatabase {
 
     @Autowired
@@ -24,7 +25,7 @@ public class AllCsvDatabase implements CsvDatabase {
     //String is md5
     private ListMultimap<String, SingleCsvEntry> entries = ArrayListMultimap.create();
 
-    public AllCsvDatabase() {
+    public void build() {
         this.entries = readerWriter.importCsv(config.getAllDatabase());
     }
 

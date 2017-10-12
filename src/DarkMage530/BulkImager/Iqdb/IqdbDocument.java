@@ -71,6 +71,6 @@ class IqdbDocument {
             bestMatch = additionalMatches.remove(0);
         }
 
-        return new RatingSearch(bestMatch, additionalMatches);
+        return null;//new RatingSearch(bestMatch, additionalMatches);
     }
 }

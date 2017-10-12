@@ -1,6 +1,8 @@
 package DarkMage530.BulkImager;
 
 import DarkMage530.BulkImager.Metadata.RatingSearch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +13,9 @@ import java.nio.file.Path;
  * Created by Shirobako on 3/5/2017.
  */
 public class PictureFile {
+    private final static Logger log = LoggerFactory.getLogger(PictureFile.class);
+
+
     private Path path;
     private File file;
     private ImageRatios imageRatios;
@@ -24,12 +29,10 @@ public class PictureFile {
         this.imageRatios = ImageRatios.getImageRatio(file);
         this.moveRoot = moveRoot;
 
-        try {
-            FileInputStream fis = new FileInputStream(file);
+        try (FileInputStream fis = new FileInputStream(file)) {
             this.md5 = org.apache.commons.codec.digest.DigestUtils.md5Hex(fis);
-            fis.close();
         } catch(IOException e) {
-            System.out.println("couldn't read md5");
+            log.error("IOException trying to read the md5 of " + file.getPath());
         }
     }
 

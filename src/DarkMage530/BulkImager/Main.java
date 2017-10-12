@@ -1,5 +1,7 @@
 package DarkMage530.BulkImager;
 
+import DarkMage530.BulkImager.Csv.AllCsvDatabase;
+import DarkMage530.BulkImager.Csv.WallpaperCsvDatabase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -34,6 +36,10 @@ public class Main {
         }
         config.build(prop);
 
+        AllCsvDatabase allCsv = context.getBean(AllCsvDatabase.class);
+        allCsv.build();
+        WallpaperCsvDatabase wallpaperCsv = context.getBean(WallpaperCsvDatabase.class);
+        wallpaperCsv.build();
         Driver driver = context.getBean(Driver.class);
 
         try {
