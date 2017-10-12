@@ -28,6 +28,13 @@ public class CsvReaderWriter {
     private BirtConfiguration config;
 
     public ListMultimap<String, SingleCsvEntry> importCsv(File csvFile) {
+        if (!csvFile.exists()) {
+            try {
+                csvFile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException("Attempted to create " + csvFile.getPath() + " but IOException, throwing RuntimeException", e);
+            }
+        }
         try (CSVReader reader = new CSVReader(new FileReader(csvFile), config.getSeperator(), config.getQuoteChar(), 1)) {
 
             List<String[]> myEntries = reader.readAll();

@@ -45,8 +45,8 @@ public class Driver {
         }
     }
 
-    private void recursivelyScanDirectoriesForWallpapers(File recusiveRoot, File moveRoot) {
-        for (File file : recusiveRoot.listFiles()) {
+    private void recursivelyScanDirectoriesForWallpapers(File recursiveRoot, File moveRoot) {
+        for (File file : recursiveRoot.listFiles()) {
             if (file.isDirectory()) {
                 recursivelyScanDirectoriesForWallpapers(file, moveRoot);
             } else if (file.getName().endsWith(".jpeg") ||
