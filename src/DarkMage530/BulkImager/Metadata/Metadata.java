@@ -1,5 +1,6 @@
 package DarkMage530.BulkImager.Metadata;
 
+import DarkMage530.BulkImager.Csv.SingleCsvEntry;
 import DarkMage530.BulkImager.ImageRating;
 import com.drew.metadata.MetadataException;
 
@@ -12,5 +13,7 @@ public interface Metadata {
     List<ImageRating> getRatings();
 
     boolean isEmpty();
+
+    List<SingleCsvEntry> getEntries();
 
 }

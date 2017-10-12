@@ -33,4 +33,11 @@ public class CsvDbMetadata implements Metadata {
     public boolean isEmpty() {
         return csvEntries.isEmpty();
     }
+
+    @Override
+    public List<SingleCsvEntry> getEntries() {
+        return csvEntries;
+    }
+
+
 }

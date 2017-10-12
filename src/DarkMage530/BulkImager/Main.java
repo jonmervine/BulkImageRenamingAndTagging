@@ -67,7 +67,7 @@ check md5 to local DB
     if found
 !!      copy file to wallpaper directory
         tag jpgs, rename with tags
-        update wallpaper dbs
+!!      update wallpaper dbs
 ? Take md5 to check boorus directly
     ? parse web info
     ? copy files to wallpaper directory
@@ -77,5 +77,18 @@ search iqdb to get rating and tags
     copy files to wallpaper directory
     tag jpgs, rename with tags
     update local and wallpaper dbs
+
+ For Creating Wallpaper Structure With Wallpapers
+* Read in Config Settings
+* Import Local CSV DB (All Known)
+* Import Wallpaper CSV DB (Just Wallpapers)
+* Start Scanning from 'Need to Sort'
+* Filter any images that match the wallpaper resolutions I want
+* Check Md5 to Wallpaper DB
+*
+* Check Md5 to Local DB
+*
+* Search IQDB to get rating and tags
+*   Copy files to wallpaper directory, tag jpgs, rename with tags, update local & wallpaper DB's
 
  */

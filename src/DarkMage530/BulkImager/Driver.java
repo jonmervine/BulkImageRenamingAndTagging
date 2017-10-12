@@ -1,7 +1,7 @@
 package DarkMage530.BulkImager;
 
 import DarkMage530.BulkImager.Iqdb.SearchIqdb;
-import DarkMage530.BulkImager.Md5.Md5Lookup;
+import DarkMage530.BulkImager.Metadata.DatabaseManager;
 import DarkMage530.BulkImager.Metadata.Metadata;
 import DarkMage530.BulkImager.Output.PictureOutput;
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ public class Driver {
     private PictureOutput outputResult;
 
     @Autowired
-    private Md5Lookup lookup;
+    private DatabaseManager dbManager;
 
     public void drive() {
         if (config.isFindWallpaper()) {
@@ -70,14 +70,14 @@ public class Driver {
     }
 
     private void processWallpapers(PictureFile pictureFile) {
-        Metadata foundWallpapers = lookup.wallpaperLookup(pictureFile);
+        Metadata foundWallpapers = dbManager.wallpaperLookup(pictureFile);
 
         if (!foundWallpapers.isEmpty()) {
             //handle foundwallpapers, already in wallpaper directory
             return;
         }
 
-        foundWallpapers = lookup.allLookup(pictureFile);
+        foundWallpapers = dbManager.allLookup(pictureFile);
 
         if (!foundWallpapers.isEmpty()) {
 
@@ -86,7 +86,10 @@ public class Driver {
 
             //need to tag file if jpg
             // need to rename file
+
             // need to update wallpaper database
+            dbManager.updateWallpaper(pictureFile, foundWallpapers);
+
             // need to delete leftover
         }
 

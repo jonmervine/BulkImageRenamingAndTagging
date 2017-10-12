@@ -1,4 +1,4 @@
-package DarkMage530.BulkImager.Md5;
+package DarkMage530.BulkImager.Metadata;
 
 import DarkMage530.BulkImager.Csv.AllCsvDatabase;
 import DarkMage530.BulkImager.Csv.SingleCsvEntry;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class Md5Lookup {
+public class DatabaseManager {
 
     @Autowired
     private AllCsvDatabase allEntries;
@@ -30,5 +30,13 @@ public class Md5Lookup {
         List<SingleCsvEntry> localWallpaper = wallpaperEntries.get(pictureFile.getMd5());
         Metadata metadata = new CsvDbMetadata(localWallpaper);
         return metadata;
+    }
+
+    public void updateWallpaper(PictureFile pictureFile, Metadata metadata) {
+        wallpaperEntries.update(pictureFile.getMd5(), metadata.getEntries());
+    }
+
+    public void updateAllDb(PictureFile pictureFile, Metadata metadata) {
+        allEntries.update(pictureFile.getMd5(), metadata.getEntries());
     }
 }
