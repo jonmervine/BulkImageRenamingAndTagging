@@ -11,63 +11,42 @@ import java.util.List;
  */
 public class SingleCsvEntry {
 
-    private String md5; //0
-    private Long booruId; //1
-    private String booru; //2
-    //    downloaded; //3
-//    created_at; //4
-    private String fileExt; //5
-    private Long fileSize; //6
-    //    has_children; //7
-    private Integer height; //8
-    private Integer width; //9
-    //    md5; //10
-    private String parentId; //11
-    private String rating; //12
-    private Integer score; //13
-    private String source; //14
-    private List<String> tags; //15
-    //    uploader_id; //16
-//    approver_id; //17
-//    down_score; //18
-//    up_score; //19
-//    updated_at; //20
-//    fav_array; //21
-//    is_banned; //22
-    private Boolean deleted; //23
-    //    is_flagged; //24
-//    is_pending; //25
-//    is_rating_locked; //26
-//    has_active_children; //27
-    private Long pixivId; //28
-    private List<String> pools; //29
-    //    last_comment_bumped_at; //30
-//    last_commented_at; //31
-//    last_noted_at; //32
-    private Long changeSeq; //33
-    private Long frames; //34
-//    frames_pending; //35
-//    is_held; //36
-//    status //37
+    private String md5;
+    private Long booruId;
+    private String booru;
+    private String fileExt;
+    private Long fileSize;
+    private Integer height;
+    private Integer width;
+    private String parentId;
+    private String rating;
+    private Integer score;
+    private String source;
+    private List<String> tags;
+    private Boolean deleted;
+    private Long pixivId;
+    private List<String> pools;
+    private Long changeSeq;
+    private Long frames;
 
     public SingleCsvEntry(String[] entry) {
         md5 = String.valueOf(entry[0]);
         booruId = entry[1].isEmpty() ? null : Long.valueOf(entry[1]);
         booru = String.valueOf(entry[2]);
-        fileExt = String.valueOf(entry[5]);
-        fileSize = entry[6].isEmpty() ? null : Long.valueOf(entry[6]);
-        height = entry[8].isEmpty() ? null : Integer.valueOf(entry[8]);
-        width = entry[9].isEmpty() ? null : Integer.valueOf(entry[9]);
-        parentId = String.valueOf(entry[11]);
-        rating = String.valueOf(entry[12]);
-        score = entry[13].isEmpty() ? null : Integer.valueOf(entry[13]);
-        source = String.valueOf(entry[14]);
-        tags = Lists.newArrayList(entry[15].split("\"\\{|,|\\}\""));
-        deleted = entry[23].isEmpty() ? null : Boolean.valueOf(entry[23]);
-        pixivId = entry[28].isEmpty() ? null : Long.valueOf(entry[28]);
-        pools = Lists.newArrayList(entry[29].split("\"\\{|,|\\}\""));
-        changeSeq = entry[33].isEmpty() ? null : Long.valueOf(entry[33]);
-        frames = entry[34].isEmpty() ? null : Long.valueOf(entry[34]);
+        fileExt = String.valueOf(entry[3]);
+        fileSize = entry[4].isEmpty() ? null : Long.valueOf(entry[4]);
+        height = entry[5].isEmpty() ? null : Integer.valueOf(entry[5]);
+        width = entry[6].isEmpty() ? null : Integer.valueOf(entry[6]);
+        parentId = String.valueOf(entry[7]);
+        rating = String.valueOf(entry[8]);
+        score = entry[9].isEmpty() ? null : Integer.valueOf(entry[9]);
+        source = String.valueOf(entry[10]);
+        tags = Lists.newArrayList(entry[11].split("\"\\{|,|\\}\""));
+        deleted = entry[12].isEmpty() ? null : Boolean.valueOf(entry[12]);
+        pixivId = entry[13].isEmpty() ? null : Long.valueOf(entry[13]);
+        pools = Lists.newArrayList(entry[14].split("\"\\{|,|\\}\""));
+        changeSeq = entry[15].isEmpty() ? null : Long.valueOf(entry[15]);
+        frames = entry[16].isEmpty() ? null : Long.valueOf(entry[16]);
     }
 
     public String getMd5() {

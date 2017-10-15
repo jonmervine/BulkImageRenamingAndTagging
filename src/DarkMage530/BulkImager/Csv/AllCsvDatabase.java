@@ -3,8 +3,10 @@ package DarkMage530.BulkImager.Csv;
 import DarkMage530.BulkImager.BirtConfiguration;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,8 +15,11 @@ import java.util.List;
  * Created by DarkMage530 on 7/1/2017. For BulkImageRenamingAndTagging
  * Current User Shirobako
  */
+@Lazy
 @Component
 public class AllCsvDatabase implements CsvDatabase {
+
+    private static final Logger log = LoggerFactory.getLogger(AllCsvDatabase.class);
 
     @Autowired
     private BirtConfiguration config;
@@ -25,12 +30,13 @@ public class AllCsvDatabase implements CsvDatabase {
     //String is md5
     private ListMultimap<String, SingleCsvEntry> entries = ArrayListMultimap.create();
 
-    public void build() {
+    public AllCsvDatabase() throws CsvException {
         this.entries = readerWriter.importCsv(config.getAllDatabase());
     }
 
     @Override
-    public void save() {
+    public void save() throws CsvException {
+        log.info("Importing All Database");
         readerWriter.exportCsv(entries, config.getAllDatabase());
     }
 

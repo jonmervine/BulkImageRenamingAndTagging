@@ -27,12 +27,12 @@ public class CsvReaderWriter {
     @Autowired
     private BirtConfiguration config;
 
-    public ListMultimap<String, SingleCsvEntry> importCsv(File csvFile) {
+    public ListMultimap<String, SingleCsvEntry> importCsv(File csvFile) throws CsvException {
         if (!csvFile.exists()) {
             try {
                 csvFile.createNewFile();
             } catch (IOException e) {
-                throw new RuntimeException("Attempted to create " + csvFile.getPath() + " but IOException, throwing RuntimeException", e);
+                throw new CsvException("Attempted to create " + csvFile.getPath() + " but IOException, throwing CsvExceptino", e);
             }
         }
         try (CSVReader reader = new CSVReader(new FileReader(csvFile), config.getSeperator(), config.getQuoteChar(), 1)) {
@@ -51,15 +51,22 @@ public class CsvReaderWriter {
             return multiMap;
 
         } catch (FileNotFoundException e) {
-            log.error(csvFile.getName() + " not found trying to import CSV", e);
+            throw new CsvException(csvFile.getName() + " not found trying to import CSV", e);
         } catch (IOException e) {
-            log.error("IOException trying to import " + csvFile.getName(), e);
+            throw new CsvException("IOException trying to import " + csvFile.getName(), e);
         }
-        throw new RuntimeException("fuckedup importing db check logs");
     }
 
-    public boolean exportCsv(ListMultimap<String, SingleCsvEntry> entries, File csvOutputFile) {
-        try (CSVWriter writer = new CSVWriter(new FileWriter(csvOutputFile), config.getSeperator())){
+    public boolean exportCsv(ListMultimap<String, SingleCsvEntry> entries, File csvOutputFile) throws CsvException {
+        if (!csvOutputFile.exists()) {
+            try {
+                csvOutputFile.createNewFile();
+            } catch (IOException e) {
+                throw new CsvException("Attempted to create " + csvOutputFile.getPath() + " for export but IOException, throwing CsvException", e);
+            }
+        }
+
+        try (CSVWriter writer = new CSVWriter(new FileWriter(csvOutputFile), config.getSeperator())) {
 
             for (Map.Entry<String, SingleCsvEntry> entry : entries.entries()) {
                 writer.writeNext(entry.getValue().csvLine());
@@ -67,8 +74,7 @@ public class CsvReaderWriter {
 
             return true;
         } catch (IOException e) {
-            log.error("IOException while trying to export csv file " + csvOutputFile.getName(), e);
-            throw new RuntimeException("fucked up exporting db, check log");
+            throw new CsvException("IOException while trying to export csv file " + csvOutputFile.getName(), e);
         }
     }
 }

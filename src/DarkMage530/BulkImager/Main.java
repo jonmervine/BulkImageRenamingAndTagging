@@ -36,10 +36,10 @@ public class Main {
         }
         config.build(prop);
 
-        AllCsvDatabase allCsv = context.getBean(AllCsvDatabase.class);
-        allCsv.build();
-        WallpaperCsvDatabase wallpaperCsv = context.getBean(WallpaperCsvDatabase.class);
-        wallpaperCsv.build();
+//        AllCsvDatabase allCsv = context.getBean(AllCsvDatabase.class);
+//        allCsv.build();
+//        WallpaperCsvDatabase wallpaperCsv = context.getBean(WallpaperCsvDatabase.class);
+//        wallpaperCsv.build();
         Driver driver = context.getBean(Driver.class);
 
         try {

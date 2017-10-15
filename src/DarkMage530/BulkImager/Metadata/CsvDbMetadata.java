@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 
 public class CsvDbMetadata implements Metadata {
 
-    @Autowired
     private RatingSearch ratingSearch;
 
     private List<SingleCsvEntry> csvEntries;
 
-    public CsvDbMetadata(List<SingleCsvEntry> csvEntries) {
+    public CsvDbMetadata(RatingSearch ratingSearch, List<SingleCsvEntry> csvEntries) {
         this.csvEntries = csvEntries;
+        this.ratingSearch = ratingSearch;
     }
 
     @Override

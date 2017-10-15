@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface CsvDatabase {
 
-    void save();
+    void save() throws CsvException;
 
     List<SingleCsvEntry> get(String md5);
 

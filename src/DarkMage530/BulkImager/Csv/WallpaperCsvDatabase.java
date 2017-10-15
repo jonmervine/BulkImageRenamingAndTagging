@@ -3,13 +3,19 @@ package DarkMage530.BulkImager.Csv;
 import DarkMage530.BulkImager.BirtConfiguration;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component("wallpaperDatabase")
+@Lazy
+@Component
 public class WallpaperCsvDatabase implements CsvDatabase {
+
+    private static final Logger log = LoggerFactory.getLogger(WallpaperCsvDatabase.class);
 
     @Autowired
     private BirtConfiguration config;
@@ -20,12 +26,13 @@ public class WallpaperCsvDatabase implements CsvDatabase {
     //String is md5
     private ListMultimap<String, SingleCsvEntry> entries = ArrayListMultimap.create();
 
-    public void build() {
+    public WallpaperCsvDatabase() throws CsvException {
+        log.info("Importing Wallpaper Database");
         this.entries = readerWriter.importCsv(config.getWallpaperDatabase());
     }
 
     @Override
-    public void save() {
+    public void save() throws CsvException {
         readerWriter.exportCsv(entries, config.getWallpaperDatabase());
     }
 

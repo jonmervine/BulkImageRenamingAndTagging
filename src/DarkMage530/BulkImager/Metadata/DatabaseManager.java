@@ -3,8 +3,6 @@ package DarkMage530.BulkImager.Metadata;
 import DarkMage530.BulkImager.Csv.AllCsvDatabase;
 import DarkMage530.BulkImager.Csv.SingleCsvEntry;
 import DarkMage530.BulkImager.Csv.WallpaperCsvDatabase;
-import DarkMage530.BulkImager.Metadata.CsvDbMetadata;
-import DarkMage530.BulkImager.Metadata.Metadata;
 import DarkMage530.BulkImager.PictureFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,15 +18,18 @@ public class DatabaseManager {
     @Autowired
     private WallpaperCsvDatabase wallpaperEntries;
 
+    @Autowired
+    private MetadataFactory metadataFactory;
+
     public Metadata allLookup(PictureFile pictureFile) {
         List<SingleCsvEntry> locallyKnown = allEntries.get(pictureFile.getMd5());
-        Metadata metadata = new CsvDbMetadata(locallyKnown);
+        Metadata metadata = metadataFactory.buildMetadata(locallyKnown);
         return metadata;
     }
 
     public Metadata wallpaperLookup(PictureFile pictureFile) {
         List<SingleCsvEntry> localWallpaper = wallpaperEntries.get(pictureFile.getMd5());
-        Metadata metadata = new CsvDbMetadata(localWallpaper);
+        Metadata metadata = metadataFactory.buildMetadata(localWallpaper);
         return metadata;
     }
 
