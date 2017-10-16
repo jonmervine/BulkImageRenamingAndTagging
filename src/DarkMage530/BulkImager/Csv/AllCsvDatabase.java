@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ import java.util.List;
  * Current User Shirobako
  */
 @Lazy
-@Component
+@Component("allEntries")
 public class AllCsvDatabase implements CsvDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(AllCsvDatabase.class);
@@ -30,13 +31,14 @@ public class AllCsvDatabase implements CsvDatabase {
     //String is md5
     private ListMultimap<String, SingleCsvEntry> entries = ArrayListMultimap.create();
 
-    public AllCsvDatabase() throws CsvException {
+    @PostConstruct
+    public void init() throws CsvException {
+        log.info("Importing All Database");
         this.entries = readerWriter.importCsv(config.getAllDatabase());
     }
 
     @Override
     public void save() throws CsvException {
-        log.info("Importing All Database");
         readerWriter.exportCsv(entries, config.getAllDatabase());
     }
 

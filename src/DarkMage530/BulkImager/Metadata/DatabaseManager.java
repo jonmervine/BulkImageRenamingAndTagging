@@ -1,10 +1,10 @@
 package DarkMage530.BulkImager.Metadata;
 
-import DarkMage530.BulkImager.Csv.AllCsvDatabase;
+import DarkMage530.BulkImager.Csv.CsvDatabase;
 import DarkMage530.BulkImager.Csv.SingleCsvEntry;
-import DarkMage530.BulkImager.Csv.WallpaperCsvDatabase;
 import DarkMage530.BulkImager.PictureFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,10 +13,12 @@ import java.util.List;
 public class DatabaseManager {
 
     @Autowired
-    private AllCsvDatabase allEntries;
+    @Lazy
+    private CsvDatabase allEntries;
 
     @Autowired
-    private WallpaperCsvDatabase wallpaperEntries;
+    @Lazy
+    private CsvDatabase wallpaperEntries;
 
     @Autowired
     private MetadataFactory metadataFactory;

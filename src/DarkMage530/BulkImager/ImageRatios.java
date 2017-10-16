@@ -4,9 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 /**
  * Created by Shirobako on 4/24/2016.
@@ -17,7 +19,7 @@ public enum ImageRatios {
     CELL(1080, 1920),
     WORK_MONITORS(2560, 1440),
     DUAL_WORK_MONITORS(5120, 1440),
-    UNKNOWN(0,0);
+    UNKNOWN(0, 0);
     private int width, height;
 
     private static final Logger log = LoggerFactory.getLogger(ImageRatios.class);
@@ -35,9 +37,13 @@ public enum ImageRatios {
         return width;
     }
 
-    public String getResolution() { return width + "x" + height; }
+    public String getResolution() {
+        return width + "x" + height;
+    }
 
-    public String getName() { return this.name(); }
+    public String getName() {
+        return this.name();
+    }
 
     public boolean isWallpaper() {
         return this != UNKNOWN;
@@ -53,15 +59,21 @@ public enum ImageRatios {
     }
 
     public static ImageRatios getImageRatio(File file) {
-        try {
-            BufferedImage bimg = ImageIO.read(file);
-            int width = bimg.getWidth();
-            int height = bimg.getHeight();
-            return getImageRatio(width + "x" + height);
+        try (ImageInputStream in = ImageIO.createImageInputStream(file)) {
+            final Iterator<ImageReader> readers = ImageIO.getImageReaders(in);
+            if (readers.hasNext()) {
+                ImageReader reader = readers.next();
+                try {
+                    reader.setInput(in);
+                    return getImageRatio(reader.getWidth(0) + "x" + reader.getHeight(0));
+                } finally {
+                    reader.dispose();
+                }
+            }
         } catch (IOException ex) {
             log.error("Could not get imageRatio for file.path: " + file.getPath() + " Setting to UNKNOWN");
-            return UNKNOWN;
         }
+        return UNKNOWN;
     }
 
     @Override

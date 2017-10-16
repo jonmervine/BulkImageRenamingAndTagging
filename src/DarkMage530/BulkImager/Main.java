@@ -1,7 +1,5 @@
 package DarkMage530.BulkImager;
 
-import DarkMage530.BulkImager.Csv.AllCsvDatabase;
-import DarkMage530.BulkImager.Csv.WallpaperCsvDatabase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -35,26 +33,20 @@ public class Main {
             throw new RuntimeException(ex);
         }
         config.build(prop);
-
-//        AllCsvDatabase allCsv = context.getBean(AllCsvDatabase.class);
-//        allCsv.build();
-//        WallpaperCsvDatabase wallpaperCsv = context.getBean(WallpaperCsvDatabase.class);
-//        wallpaperCsv.build();
         Driver driver = context.getBean(Driver.class);
 
         try {
             driver.drive();
         } catch (Exception e) {
             log.error("Failure", e);
-            throw new RuntimeException(e);
         }
     }
 }
 
-    /*    Current (maybe) issues:
-        Need Multi threading slow <- limited due to the hits to iqdb i can make "on iqdb it's 60 requests per floating 5 minute window"
-        maybe connection pool c3po
-        Not doing anything with indivudal boorus yet
+    /*
+        Run program to find all wallpapers, put into list with md5, cross reference with my initial md5 list of ALL images,
+            and the iqdb irc returned DB list and then my exported version to verify nothing being found.
+        iqdb limited due to the hits to iqdb i can make "on iqdb it's 60 requests per floating 5 minute window"
      */
 
 /*
@@ -83,18 +75,4 @@ search iqdb to get rating and tags
     copy files to wallpaper directory
     tag jpgs, rename with tags
     update local and wallpaper dbs
-
- For Creating Wallpaper Structure With Wallpapers
-* Read in Config Settings
-* Import Local CSV DB (All Known)
-* Import Wallpaper CSV DB (Just Wallpapers)
-* Start Scanning from 'Need to Sort'
-* Filter any images that match the wallpaper resolutions I want
-* Check Md5 to Wallpaper DB
-*
-* Check Md5 to Local DB
-*
-* Search IQDB to get rating and tags
-*   Copy files to wallpaper directory, tag jpgs, rename with tags, update local & wallpaper DB's
-
  */

@@ -1,15 +1,18 @@
 package DarkMage530.BulkImager;
 
-import DarkMage530.BulkImager.Iqdb.IqdbException;
-import DarkMage530.BulkImager.Iqdb.SearchIqdb;
-import DarkMage530.BulkImager.Metadata.MetadataExecption;
-import DarkMage530.BulkImager.Metadata.XMPManager;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,6 +29,27 @@ public class FileNavigatorTest {
 
     private static final File outputFile = new File("D:\\Downloads\\derp\\outputFile.jpg");
     private static final File outputFile2 = new File("D:\\Downloads\\derp\\outputFile2.jpg");
+
+    @Test
+    public void testfilegifissue() {
+        File notderpFile = new File("D:\\P\\#Need to Sort - Copy\\2774140.gif");
+        File derpfile = new File("D:\\P\\#Need to Sort - Copy\\2774141.gif");
+        try (ImageInputStream in = ImageIO.createImageInputStream(derpfile)) {
+            final Iterator<ImageReader> readers = ImageIO.getImageReaders(in);
+            if (readers.hasNext()) {
+                ImageReader reader = readers.next();
+                try {
+                    reader.setInput(in);
+                    System.out.println(reader.getWidth(0) + "x" + reader.getHeight(0));
+                } finally {
+                    reader.dispose();
+                }
+            }
+        } catch (IOException ex) {
+            log.error("Could not get imageRatio for file.path: " + derpfile.getPath() + " Setting to UNKNOWN");
+        }
+    }
+
 
     @Test
     public void testMoveFile() {
