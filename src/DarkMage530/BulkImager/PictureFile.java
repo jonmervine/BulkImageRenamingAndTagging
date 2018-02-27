@@ -93,3 +93,4 @@ public class PictureFile {
         return "PictureFile: [" + asPath() + ", " + getResolution() + "]";
     }
 }
+

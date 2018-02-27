@@ -90,7 +90,6 @@ public class Driver {
 
             // need to update wallpaper database
             dbManager.updateWallpaper(pictureFile, foundWallpapers);
-
             // need to delete leftover
         }
 

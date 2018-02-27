@@ -27,6 +27,14 @@ public class CsvReaderWriter {
     @Autowired
     private BirtConfiguration config;
 
+    /**
+     * When we start up we want to import our csv file so that we can check the MD5 hashes and tags for images then export
+     * it by writing to disk when we are done. Acting as a pseudo database
+     *
+     * @param csvFile Our 'database' file saving all our information as comma delimited rows
+     * @return a ListMultimap of String, SingleCsvEntry where the key is the MD5 Hash of the picture
+     * @throws CsvException Wrapped exception of an IOException in the case that we write file to disk
+     */
     public ListMultimap<String, SingleCsvEntry> importCsv(File csvFile) throws CsvException {
         if (!csvFile.exists()) {
             try {

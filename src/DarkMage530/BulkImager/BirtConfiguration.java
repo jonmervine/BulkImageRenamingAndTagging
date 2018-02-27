@@ -1,7 +1,5 @@
 package DarkMage530.BulkImager;
 
-import org.springframework.stereotype.Component;
-
 import java.io.File;
 import java.util.Properties;
 
@@ -11,7 +9,6 @@ import static DarkMage530.BulkImager.Metadata.RatingSearch.SearchConfigType;
  * Created by DarkMage530 on 5/21/2017. For BulkImageRenamingAndTagging
  * Current User Shirobako
  */
-@Component
 public class BirtConfiguration {
 
     private File scanLocation;
@@ -30,7 +27,7 @@ public class BirtConfiguration {
 
     private SearchConfigType searchConfigType;
 
-    public void build(Properties prop) {
+    public BirtConfiguration(Properties prop) {
         scanLocation = new File(prop.getProperty("scan.location"));
         endLocation = new File(prop.getProperty("end.location"));
         rename = Boolean.valueOf(prop.getProperty("rename"));
