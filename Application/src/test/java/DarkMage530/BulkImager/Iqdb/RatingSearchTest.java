@@ -1,8 +1,8 @@
 package DarkMage530.BulkImager.Iqdb;
 
-import DarkMage530.BulkImager.ImageRating;
-import DarkMage530.BulkImager.ImageDimensions;
-import DarkMage530.BulkImager.Metadata.RatingSearch;
+import com.darkmage530.birat.BulkImager.ImageRating;
+import com.darkmage530.birat.BulkImager.ImageDimensions;
+import com.darkmage530.birat.BulkImager.Metadata.RatingSearch;
 import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Ignore;

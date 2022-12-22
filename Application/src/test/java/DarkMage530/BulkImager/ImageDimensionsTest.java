@@ -1,5 +1,6 @@
 package DarkMage530.BulkImager;
 
+import com.darkmage530.birat.BulkImager.ImageDimensions;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

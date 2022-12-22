@@ -1,7 +1,9 @@
-package com.darkmage530;
+package com.darkmage530.birat;
 
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world!");
-    }
+import com.darkmage530.birat.auth.AuthConfig
+import kotlinx.coroutines.runBlocking
+
+fun main() = runBlocking {
+    println("Hello world!")
+    AuthConfig().createUserToken()
 }

@@ -1,6 +1,12 @@
+#Eclipse specific
+.settings
+.project
+.classpath
+
 #Intellij specific
 *.iml
 .idea/
 
 #Build related
 target/
+bin/
