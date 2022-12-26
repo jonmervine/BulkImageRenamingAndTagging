@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 import java.util.Collections;
 import java.util.List;
 
-import static com.darkmage530.birat.BulkImager.Metadata.RatingSearch.SearchConfigType.AVERAGE;
-import static com.darkmage530.birat.BulkImager.Metadata.RatingSearch.SearchConfigType.HARSHEST;
-
 /**
  * Created by Shirobako on 9/3/2016.
  */
@@ -40,7 +37,7 @@ public class RatingSearch {
 
     public ImageRating getAverageRating(List<ImageRating> ratings) {
         int ratingSum = ratings.stream()
-                .mapToInt(rating -> rating.ordinal()).sum();
+                .mapToInt(Enum::ordinal).sum();
 
         int proposedRating = (int) Math.round(ratingSum / (ratings.size() * 1.0));
         if (proposedRating > ImageRating.EXPLICIT.ordinal()) {
