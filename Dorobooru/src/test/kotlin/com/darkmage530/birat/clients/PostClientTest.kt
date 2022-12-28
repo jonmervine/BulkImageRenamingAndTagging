@@ -1,9 +1,8 @@
-package com.darkmage530.birat.auth
+package com.darkmage530.birat.clients
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.ktor.util.*
-import io.mockk.core.ValueClassSupport.boxedValue
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import java.time.Instant
@@ -11,7 +10,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.JsonObject
 
-class AuthConfigTest : StringSpec({
+class PostClientTest : StringSpec({
 
     @Serializable
     data class TokenRequest(val enabled: Boolean, val note: String, val expirationTime: String)
@@ -60,5 +59,13 @@ class AuthConfigTest : StringSpec({
         val derp = Json.decodeFromString<JsonObject>(text)["expirationTime"]
         Instant.parse(derp.toString())
         Instant.parse("2022-12-23T10:39:42.025000Z")
+    }
+
+    "test getActiveToken" {
+        val token: Token? = Token("fdsa", "fdkjsa", true, Instant.now())
+
+        if (token?.isExpired() != false) println(true) else {
+            println(false)
+        }
     }
 })
