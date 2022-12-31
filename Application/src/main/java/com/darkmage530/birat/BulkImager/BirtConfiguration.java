@@ -29,6 +29,8 @@ public class BirtConfiguration {
 
     private SearchConfigType searchConfigType;
 
+    private Boolean dorobooruUpload;
+
     public BirtConfiguration(Properties prop) {
         scanLocation = new File(prop.getProperty("scan.location"));
         endLocation = new File(prop.getProperty("end.location"));
@@ -46,6 +48,8 @@ public class BirtConfiguration {
         skipDatabase = Boolean.parseBoolean(prop.getProperty("skip.database"));
 
         searchConfigType = SearchConfigType.valueOf(prop.getProperty("wallpaper.rating.search").toUpperCase());
+
+        dorobooruUpload = Boolean.parseBoolean(prop.getProperty("dorobooruUpload"));
     }
 
     public File getScanLocation() {
@@ -99,4 +103,6 @@ public class BirtConfiguration {
     public boolean isSkipDatabase() {
         return skipDatabase;
     }
+
+    public boolean dorobooruUploads() {return dorobooruUpload;}
 }

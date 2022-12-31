@@ -22,11 +22,6 @@
 
     <repositories>
         <repository>
-            <!--Only required if using EAP releases -->
-            <id>ktor-eap</id>
-            <url>https://maven.pkg.jetbrains.space/public/p/ktor/eap</url>
-        </repository>
-        <repository>
             <id>oss.sonatype.org</id>
             <name>Sonatype Snapshot Repository</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -36,6 +31,11 @@
             <releases>
                 <enabled>false</enabled>
             </releases>
+        </repository>
+        <repository>
+            <!--Only required if using EAP releases -->
+            <id>ktor-eap</id>
+            <url>https://maven.pkg.jetbrains.space/public/p/ktor/eap</url>
         </repository>
     </repositories>
 
