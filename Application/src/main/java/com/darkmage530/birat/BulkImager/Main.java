@@ -18,7 +18,7 @@ public class Main {
         ApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
         Driver driver = context.getBean(Driver.class);
         try {
-            driver.drive();
+//            driver.drive();
         } catch (Exception e) {
             log.error("Failure", e);
         }

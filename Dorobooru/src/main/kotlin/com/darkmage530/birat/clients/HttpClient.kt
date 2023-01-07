@@ -9,6 +9,10 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.util.*
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Version(val version: Int)
 
 class HttpClient {
     companion object {

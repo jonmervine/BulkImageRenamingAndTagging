@@ -23,16 +23,22 @@ class DorobooruService {
     }
 
     fun createPost(postRequest: PostRequest, postFile: PostFile) = runBlocking {
-        posts.createPost(postRequest, postFile)
+        return@runBlocking posts.createPost(postRequest, postFile)
     }
 
     fun updateTag(tag: String, tagRequest: TagRequest) = runBlocking {
-        tags.updateTag(tag, tagRequest)
+        return@runBlocking tags.updateTag(tag, tagRequest)
+    }
+
+    fun clearEverything() = runBlocking {
+        postClient.deleteAllPosts()
+        tagClient.deleteAllTags()
     }
 }
 
 fun main() {
 //    DorobooruService().updateTag("touhou", TagRequest(TagCategory.Copyright, 1))
+//    DorobooruService().clearEverything()
 
     //    val tokenClient = TokenClient()
 //    val postClient = PostClient(tokenClient)
@@ -45,13 +51,13 @@ fun main() {
 //            println("shutdown complete")
 //        }
 //    )
-    DorobooruService().createPost(
-        PostRequest(
-        listOf("hibike_euphonium", "1girl", "kumiko_oumae", "fluff"),
-        Safety.sketchy,
-        "https://www.pixiv.net/en/artworks/103589401"
-    ), PostFile("D:\\Downloads\\102890995_p0.png")
-    )
+//    DorobooruService().createPost(
+//        PostRequest(
+//        listOf("hibike_euphonium", "1girl", "kumiko_oumae", "fluff"),
+//        Safety.sketchy,
+//        "https://www.pixiv.net/en/artworks/103589401"
+//    ), PostFile("D:\\Downloads\\102890995_p0.png")
+//    )
 //    println("first done")
 //
 //    DorobooruService().createPost(

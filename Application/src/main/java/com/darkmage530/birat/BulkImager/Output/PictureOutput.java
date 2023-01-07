@@ -1,12 +1,13 @@
 package com.darkmage530.birat.BulkImager.Output;
 
-import com.darkmage530.birat.BulkImager.Metadata.Metadata;
 import com.darkmage530.birat.BulkImager.PictureFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 /**
  * Created by Shirobako on 10/2/2016.
@@ -28,8 +29,18 @@ public class PictureOutput {
         this.namer = namer;
     }
 
-    public PictureFile move(PictureFile pictureFile, Metadata metadata) {
-        //TODO  not implemented
+    //janking this
+    public PictureFile move(PictureFile pictureFile, String directoryName) {
+        File destinationFile = new File(pictureFile.getMoveRoot().toPath().resolve(directoryName).resolve(pictureFile.getFileName()).toUri());
+
+        try {
+            mover.copyFile(pictureFile, destinationFile);
+            Files.delete(pictureFile.asPath());
+        } catch (OutputException e) {
+            System.out.println("error copying file " + pictureFile.getFileName());
+        } catch (IOException e) {
+            System.out.println("error deleting file " + pictureFile.getFileName());
+        }
         return null;
     }
 

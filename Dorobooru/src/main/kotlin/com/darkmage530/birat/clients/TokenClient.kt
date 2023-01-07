@@ -38,9 +38,6 @@ class TokenClient(val client: HttpClient) {
     @Serializable
     private data class TokenRequest(val enabled: Boolean, val note: String, val expirationTime: String)
 
-    @Serializable
-    private data class Version(val version: Int)
-
     suspend fun getActiveToken(): Either<DorobooruError, Token> =
         either {
             activeToken.let { token ->

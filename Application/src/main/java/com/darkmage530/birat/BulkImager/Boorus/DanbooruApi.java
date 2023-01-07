@@ -4,6 +4,7 @@ import com.darkmage530.birat.posts.PostRequest;
 import com.darkmage530.birat.posts.Safety;
 import com.darkmage530.birat.tags.TagCategory;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.http.HttpEntity;
@@ -19,10 +20,11 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class DanbooruApi {
 
-    public Pair<PostRequest, Map<TagCategory, List<String>>> getByMd5(String md5) {
+    public Pair<PostRequest, Map<TagCategory, Set<String>>> getByMd5(String md5) {
         Map<String, Object> jsonResponse;
 
         CloseableHttpClient httpclient = HttpClients.custom().setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()).build();
@@ -47,7 +49,7 @@ public class DanbooruApi {
         return createPostRequest(jsonResponse);
     }
 
-    private Pair<PostRequest, Map<TagCategory, List<String>>> createPostRequest(Map<String, Object> jsonResponse) {
+    private Pair<PostRequest, Map<TagCategory, Set<String>>> createPostRequest(Map<String, Object> jsonResponse) {
         List<String> tags = Arrays.asList(jsonResponse.get("tag_string").toString().split(" "));
         PostRequest postRequest = new PostRequest(
                 tags,
@@ -55,19 +57,19 @@ public class DanbooruApi {
                 jsonResponse.get("source").toString()
         );
 
-        Map<TagCategory, List<String>> tagCategories = Maps.newHashMap();
+        Map<TagCategory, Set<String>> tagCategories = Maps.newHashMap();
 
         if (!jsonResponse.get("tag_string_character").toString().isEmpty()) {
-            tagCategories.put(TagCategory.Character, Arrays.asList(jsonResponse.get("tag_string_character").toString().split(" ")));
+            tagCategories.put(TagCategory.Character, Sets.newHashSet(Arrays.asList(jsonResponse.get("tag_string_character").toString().split(" "))));
         }
         if (!jsonResponse.get("tag_string_copyright").toString().isEmpty()) {
-            tagCategories.put(TagCategory.Copyright, Arrays.asList(jsonResponse.get("tag_string_copyright").toString().split(" ")));
+            tagCategories.put(TagCategory.Copyright, Sets.newHashSet(Arrays.asList(jsonResponse.get("tag_string_copyright").toString().split(" "))));
         }
         if (!jsonResponse.get("tag_string_artist").toString().isEmpty()) {
-            tagCategories.put(TagCategory.Artist, Arrays.asList(jsonResponse.get("tag_string_artist").toString().split(" ")));
+            tagCategories.put(TagCategory.Artist, Sets.newHashSet(Arrays.asList(jsonResponse.get("tag_string_artist").toString().split(" "))));
         }
         if (!jsonResponse.get("tag_string_meta").toString().isEmpty()) {
-            tagCategories.put(TagCategory.Meta, Arrays.asList(jsonResponse.get("tag_string_meta").toString().split(" ")));
+            tagCategories.put(TagCategory.Meta, Sets.newHashSet(Arrays.asList(jsonResponse.get("tag_string_meta").toString().split(" "))));
         }
         return Pair.of(postRequest, tagCategories);
     }

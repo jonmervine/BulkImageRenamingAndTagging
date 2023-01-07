@@ -10,8 +10,9 @@ import com.darkmage530.birat.posts.PostFile
 import com.darkmage530.birat.posts.PostRequest
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.*
 import java.io.File
 
 // ?bump-login add as GET parameter to bump the token last logged in
@@ -68,5 +69,34 @@ class PostClient(private val client: HttpClient, private val tokenClient: TokenC
         }
     }
 
-    //TODO Delete Post
+    //Delete doesn't page through posts just stops at one page
+    suspend fun deleteAllPosts() {
+        val token = tokenClient.getActiveToken().orNull()!!
+        Either.catch {
+            client.buildRequest(url)
+                .headers(HttpClient.tokenAuthHeader(token))
+                .get()
+                .execute()
+        }.mapLeft { DorobooruError.UnexpectedThrownError(it.message, it) }
+            .map { response ->
+                Either.catch {
+                    Json.decodeFromString<JsonObject>(response.bodyAsText())["results"]
+                        ?.jsonArray?.map { element ->
+                            val id = element.jsonObject["id"]?.jsonPrimitive!!.int
+                            val version = element.jsonObject["version"]!!.jsonPrimitive.int
+                            println("Deleting post $id")
+                            client.buildRequest("$DOROBOORU_URL/api/post/$id")
+                                .headers(HttpClient.tokenAuthHeader(token))
+                                .body(Json.encodeToString(Version(version)))
+                                .delete()
+                                .execute().also { response ->
+                                    if (response.status.value != 200) println("Not Successful postDeletion $response")
+                                }
+                        }
+                }.mapLeft {
+                    DorobooruError.UnexpectedThrownError(it.message, it)
+                        .also { error -> println("Error, Delete Post: $error") }
+                }
+            }
+    }
 }
