@@ -75,27 +75,3 @@ fun main() {
 ////    val posts = Posts(postClient)
 ////    posts.createPost()
 }
-
-/*
-Current state of things to do:
-
-Check szuruchrome to see how to get the categories added together
-    https://github.com/neobooru/SzuruChrome/blob/b899d2b7942d6833193a7560d239cd10c0fe6356/src/scripts/background.ts
-do that for handling tags or flesh out the TagClient
-
-content type application/json
-    https://danbooru.donmai.us/posts?md5=c62fc980ee96a90caf119219ad6b597f
-tag_string_general
-tag_string_character
-tag_string_copyright
-tag_string_artist
-tag_string_meta
-rating
-    g = general
-    s = sensitive
-    q = questionable
-    e = explicit
-
-get over to application/common and continue there
-
- */
