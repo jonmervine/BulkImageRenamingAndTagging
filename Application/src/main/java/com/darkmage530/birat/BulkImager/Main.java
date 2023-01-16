@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import picocli.CommandLine;
 
 /**
  * Created by DarkMage530 on 5/21/2017. For BulkImageRenamingAndTagging
@@ -18,7 +19,7 @@ public class Main {
         ApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
         Driver driver = context.getBean(Driver.class);
         try {
-//            driver.drive();
+            driver.start();
         } catch (Exception e) {
             log.error("Failure", e);
         }
