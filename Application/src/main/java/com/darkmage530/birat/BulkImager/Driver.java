@@ -40,12 +40,16 @@ public class Driver {
         switch (config.getActivityType()) {
             case FIND_WALLPAPERS:
                 findWallpapers();
+                break;
             case DEDUPLICATE:
                 deduplicate();
+                break;
             case IMPORT_TO_DOROBOORU:
                 importToDorobooru();
+                break;
             case UNKNOWN:
                 unknown();
+                break;
         }
     }
 
@@ -59,7 +63,6 @@ public class Driver {
 
     private void importToDorobooru() {
         recursivelyScanDirectories(config.getScanLocation(), dorobooruImport);
-
     }
 
     private void unknown() {

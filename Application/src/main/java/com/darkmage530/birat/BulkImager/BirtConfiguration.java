@@ -35,7 +35,7 @@ public class BirtConfiguration {
 
     public BirtConfiguration(Properties prop) {
 
-        activityType = ActivityType.lookupActivityType("activity.type");
+        activityType = ActivityType.lookupActivityType(prop.getProperty("activity.type"));
 
         scanLocation = new File(prop.getProperty("scan.location"));
         endLocation = new File(prop.getProperty("end.location"));
