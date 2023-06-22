@@ -10,3 +10,5 @@
 #Build related
 target/
 bin/
+build/
+.gradle/
