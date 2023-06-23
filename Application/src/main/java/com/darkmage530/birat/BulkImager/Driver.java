@@ -56,24 +56,22 @@ public class Driver {
     private void findWallpapers() {
         recursivelyScanDirectories(config.getScanLocation(), processWallpaper);
     }
+    Strategy processWallpaper = (file) -> wallpaperStrategies.foundPicture(file);
 
     private void deduplicate() {
         recursivelyScanDirectories(config.getScanLocation(), deduplicateViaMd5);
     }
+    Strategy deduplicateViaMd5 = (file) -> deduplicateStrategies.foundPicture(file);
 
     private void importToDorobooru() {
         recursivelyScanDirectories(config.getScanLocation(), dorobooruImport);
     }
+    Strategy dorobooruImport = (file) -> dorobooruStrategies.foundPicture(file);
 
     private void unknown() {
         System.out.println("unkonwn something else to do");
     }
 
-    Strategy deduplicateViaMd5 = (file) -> deduplicateStrategies.foundPicture(file);
-
-    Strategy dorobooruImport = (file) -> dorobooruStrategies.foundPicture(file);
-
-    Strategy processWallpaper = (file) -> wallpaperStrategies.foundPicture(file);
 
     void recursivelyScanDirectories(File recursiveRoot, Strategy strategy) {
         for (File file : recursiveRoot.listFiles()) {

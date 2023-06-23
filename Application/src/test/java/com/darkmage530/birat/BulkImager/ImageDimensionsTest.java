@@ -1,4 +1,4 @@
-package DarkMage530.BulkImager;
+package com.darkmage530.birat.BulkImager;
 
 import com.darkmage530.birat.BulkImager.ImageDimensions;
 import org.junit.Test;

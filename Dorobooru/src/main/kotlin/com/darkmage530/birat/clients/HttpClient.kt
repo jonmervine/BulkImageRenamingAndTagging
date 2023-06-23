@@ -16,7 +16,6 @@ data class Version(val version: Int)
 
 class HttpClient {
     companion object {
-        val test: String = "fdajkfds"
         val client = HttpClient(CIO) {
             install(ContentNegotiation) { json() }
         }.also {

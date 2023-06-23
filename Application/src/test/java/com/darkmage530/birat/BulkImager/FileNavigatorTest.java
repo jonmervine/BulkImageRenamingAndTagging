@@ -1,4 +1,4 @@
-package DarkMage530.BulkImager;
+package com.darkmage530.birat.BulkImager;
 
 import org.junit.Test;
 import org.slf4j.Logger;

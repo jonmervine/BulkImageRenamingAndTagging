@@ -1,4 +1,4 @@
-package DarkMage530.BulkImager.Iqdb;
+package com.darkmage530.birat.BulkImager.Iqdb;
 
 import com.darkmage530.birat.BulkImager.ImageRating;
 import com.darkmage530.birat.BulkImager.ImageDimensions;

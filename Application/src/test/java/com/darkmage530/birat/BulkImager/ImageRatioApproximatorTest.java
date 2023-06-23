@@ -1,4 +1,4 @@
-package DarkMage530.BulkImager;
+package com.darkmage530.birat.BulkImager;
 
 import com.google.common.collect.Sets;
 import org.junit.Test;
