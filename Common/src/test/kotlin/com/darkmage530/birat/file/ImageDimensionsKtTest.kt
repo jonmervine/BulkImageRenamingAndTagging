@@ -3,6 +3,7 @@ package com.darkmage530.birat.file
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
 
 class ImageDimensionsKtTest : StringSpec({
 
@@ -21,6 +22,14 @@ class ImageDimensionsKtTest : StringSpec({
         getDimensions(File(file).getOrNull()!!).let {
             it.isRight().shouldBeTrue()
             it.getOrNull()!!.shouldBe(Dimensions(1260, 2048))
+        }
+    }
+
+    "Fail get dimensions on txt" {
+        val file = File(java.io.File("src/test/resources/test.txt")).getOrNull()!!
+        getDimensions(file).let {
+            it.isLeft().shouldBeTrue()
+            it.leftOrNull()!!.shouldBeInstanceOf<ImageError.ImageDimensionError>()
         }
     }
 })
