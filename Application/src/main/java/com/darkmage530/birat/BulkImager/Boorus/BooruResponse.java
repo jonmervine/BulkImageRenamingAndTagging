@@ -8,4 +8,5 @@ public interface BooruResponse {
     List<String> getTags();
     Safety getSafety();
     String getSource();
+    TagCategories getTagCategories();
 }

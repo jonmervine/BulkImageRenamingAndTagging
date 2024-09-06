@@ -16,6 +16,15 @@ enum class Safety {
                 else -> unsafe
             }
         }
+
+        fun fromGelbooru(rating: String): Safety {
+            return when (rating) {
+                "general" -> safe
+                "sensitive" -> sketchy
+                "explicit" -> unsafe
+                else -> unsafe
+            }
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 package com.darkmage530.birat.BulkImager.strategies;
 
-import com.darkmage530.DerpClient;
+import com.darkmage530.JavaHttpClient;
 import com.darkmage530.birat.BulkImager.BirtConfiguration;
 import com.darkmage530.birat.BulkImager.Boorus.BooruResponse;
 import com.darkmage530.birat.BulkImager.Boorus.DanbooruApi;
@@ -17,12 +17,12 @@ import com.darkmage530.birat.tags.TagRequest;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -51,7 +51,7 @@ public class DorobooruStrategies implements Activity {
         }
     }
 
-    private final DanbooruApi danbooruApi = new DanbooruApi(new DerpClient());
+    private final DanbooruApi danbooruApi = new DanbooruApi(new JavaHttpClient());
     private Map<TagCategory, Set<String>> allCategoryTags = new HashMap<>();
     private int count = 0;
     private void foundPicture(File file, File moveRoot) {
@@ -64,16 +64,17 @@ public class DorobooruStrategies implements Activity {
             }
 
             PictureFile pictureFile = new PictureFile(file, moveRoot);
-            Pair<BooruResponse, TagCategories> pairOfPostInfo = danbooruApi.getByMd5(pictureFile.getMd5());
-            if (pairOfPostInfo == null) {
+            Optional<BooruResponse> optBooruResponse = danbooruApi.getByMd5(pictureFile.getMd5());
+            if (!optBooruResponse.isPresent()) {
                 return;
             }
+            BooruResponse booruResponse = optBooruResponse.get();
+
             PostFile postFile = PostFile.Companion.invoke(pictureFile.asPath().toString());
-            BooruResponse booruResponse = pairOfPostInfo.getLeft();
             PostRequest postRequest = new PostRequest(booruResponse.getTags(), booruResponse.getSafety(), booruResponse.getSource());
             PostResponse response = dorobooruService.createPost(postRequest, postFile);
             if (response.getStatus() == 200) {
-                for (Map.Entry<TagCategory, Set<String>> tagCategory : pairOfPostInfo.getRight().getTagCategories().entrySet()) {
+                for (Map.Entry<TagCategory, Set<String>> tagCategory : booruResponse.getTagCategories().entrySet()) {
                     if (tagCategory.getKey() != null || tagCategory.getValue() != null) {
                         if (allCategoryTags.containsKey(tagCategory.getKey())) {
                             allCategoryTags.get(tagCategory.getKey()).addAll(tagCategory.getValue());
@@ -100,7 +101,7 @@ public class DorobooruStrategies implements Activity {
 
             //move picture
             String directoryName;
-            Set<String> copyrights = pairOfPostInfo.getRight().getTagCategories().get(TagCategory.Copyright);
+            Set<String> copyrights = booruResponse.getTagCategories().get(TagCategory.Copyright);
             if (copyrights == null) {
                 directoryName = "2. Unknown Copyrights";
             }
